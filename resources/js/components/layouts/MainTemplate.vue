@@ -30,6 +30,7 @@
 
             <v-divider></v-divider>
             <v-list dense>
+                <v-list-item class="grey darken-1 text-center">Active Users</v-list-item><br>
                 <v-list-item
                     v-for="item in items"
                     :key="item.title"
