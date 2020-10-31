@@ -1,6 +1,14 @@
 /node_modules
 /public/hot
 /public/storage
+/public/uploads
+
+# exception to the rule
+!/public/uploads/nocamera.png
+!/public/uploads/user.png
+# end
+
+
 /storage/*.key
 /vendor
 .env
