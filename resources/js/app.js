@@ -14,6 +14,7 @@ import router from './routes'
 Vue.use(VueSweetalert2);
 Vue.use(Vuelidate);
 
+
 const app = new Vue({
     el: '#app',
     router,

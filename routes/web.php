@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', 'WebController@index');
+Route::get('/', 'WebController@index')->name('login');
 Route::post('/forgot-password', 'api\ForgotPasswordController@sendpasswordResetLink');
 
 Route::view('/forgot_password', 'reset_password')->name('password.reset');
