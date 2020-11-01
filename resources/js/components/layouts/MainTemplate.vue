@@ -116,13 +116,10 @@ a {  text-decoration: none;}
     created() {
         Echo.join('users').here((users) => {
             this.users = users
-            console.log(users)
         }).joining((user) => {
             this.users.push(user)
-             console.log(user)
         }).leaving((user)=> {
             this.users.splice(this.users.indexOf(user),1)
-             console.log(user)
         })
     },
   }
