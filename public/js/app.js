@@ -2684,35 +2684,54 @@ __webpack_require__.r(__webpack_exports__);
     return {
       message: "",
       otherUserMessage: '',
-      messages: [{
-        body: "I'm eden",
-        user: "You"
-      }, {
-        body: "I'm lei ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd3",
-        user: "lei"
-      }]
+      messages: []
     };
   },
   methods: {
     sendMessage: function sendMessage() {
-      this.messages.push({
-        body: this.message,
-        user: "You"
+      axios.post('/api/send/' + this.$store.getters.getUser.id, {
+        message: this.message
       });
-      axios.post();
       this.clearMessage();
     },
     clearMessage: function clearMessage() {
       this.message = '';
     },
-    created: function created() {// Echo.join('users').here((users) => {
-      //     this.users = users
-      // }).joining((user) => {
-      //     this.users.push(user)
-      // }).leaving((user)=> {
-      //     this.users.splice(this.users.indexOf(user),1)
-      // })
+    initialize: function initialize() {
+      var _this = this;
+
+      axios.get('/api/messages/' + this.$store.getters.getUser.id).then(function (response) {
+        for (var p = 0; p < response.data.length; p++) {
+          var user_n = "";
+
+          if (response.data[p].user_id == _this.$store.getters.getUser.id) {
+            user_n = "You";
+          } else {
+            user_n = _this.$store.getters.getUser.id;
+          }
+
+          _this.messages.push({
+            body: response.data[p].message,
+            user: user_n
+          });
+
+          console.log(response.data[p]);
+        }
+
+        console.log(response.data[0].id);
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
+  },
+  created: function created() {
+    this.initialize(); // Echo.join('users').here((users) => {
+    //     this.users = users
+    // }).joining((user) => {
+    //     this.users.push(user)
+    // }).leaving((user)=> {
+    //     this.users.splice(this.users.indexOf(user),1)
+    // })
   }
 });
 

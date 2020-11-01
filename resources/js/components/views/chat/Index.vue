@@ -68,31 +68,46 @@ export default {
     return {
       message: "",
       otherUserMessage: '',
-      messages: [
-        {
-          body: "I'm eden",
-          user: "You",
-        },
-         {
-          body: "I'm lei ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd3",
-          user: "lei",
-        }
-      ]
+      messages: []
     }
   },
   methods: {
     sendMessage () {
-      this.messages.push({
-        body: this.message,
-        user: "You"
+      axios.post('/api/send/' + this.$store.getters.getUser.id,{
+        message: this.message
       })
-      axios.post()
       this.clearMessage()
     },
     clearMessage () {
       this.message = '';
     },
-    created() {
+    initialize () {
+      axios.get('/api/messages/' + this.$store.getters.getUser.id)
+      .then((response) => {
+        for(var p = 0; p < response.data.length; p++){
+            var user_n = "";
+            if(response.data[p].user_id == this.$store.getters.getUser.id){
+                user_n = "You";
+            }else{
+              user_n = this.$store.getters.getUser.id;
+            }
+            this.messages.push({
+              body: response.data[p].message,
+              user: user_n
+            });
+            
+          console.log(response.data[p])
+        }
+        console.log(response.data[0].id)
+        
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    },
+  },
+  created(){
+        this.initialize();
         // Echo.join('users').here((users) => {
         //     this.users = users
         // }).joining((user) => {
@@ -100,7 +115,6 @@ export default {
         // }).leaving((user)=> {
         //     this.users.splice(this.users.indexOf(user),1)
         // })
-    },
   }
 }
 

@@ -23,7 +23,8 @@ Route::prefix('/user')->group(function(){
 });
 
 Route::group(['middleware' => 'auth:api'], function () { //prevents "redirected too many times"
- 
+    Route::post('/send/{user_id}', 'MessagesController@store');
+    Route::get('/messages/{user_id}', 'MessagesController@index');
 });
 
 
