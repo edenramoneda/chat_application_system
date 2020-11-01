@@ -36,14 +36,15 @@ class AuthController extends Controller
         }
 
         $token->save(); //eloquent
-        $user = User::with('UserRoles')->where('id', Auth::user()->id)->first();
-        return response(['error' => false, 'data' => $user, 'access_token' => $accessToken->accessToken]);
+      //  $user = User::with('UserRoles')->where('id', Auth::user()->id)->first();
+        return response(['error' => false, 'data' => Auth::user()->id, 'access_token' => $accessToken->accessToken]);
         //return $user->createToken('Auth Token')->accessToken;
     }
 
-    public function UserData(){
-        return User::with('UserRoles')->where('id', Auth::user()->id)->first();
+    public function UserData(Request $request){
+     //   return User::with('UserRoles')->where('id', Auth::user()->id)->first();
      //  return $request->user()->with('UserRoles')->where('id', Auth::user()->id)->first();
+        return $request->user();
     }
     
 }

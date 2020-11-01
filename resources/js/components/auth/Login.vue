@@ -157,7 +157,9 @@ export default {
                   axios.defaults.headers.common[
                     "Authorization"
                   ] = localStorage.getItem("token_");
-                  this.$router.push({ path: "/posts" });
+                  // this.$router.push('');
+
+                  window.location.href = '/posts';
               }
            }
         })

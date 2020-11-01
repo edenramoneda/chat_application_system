@@ -30,19 +30,17 @@
 
             <v-divider></v-divider>
             <v-list dense>
-                <v-list-item class="grey darken-1 text-center">Active Users</v-list-item><br>
+                <v-list-item class="grey darken-1 text-center">Active Users</v-list-item>
                 <v-list-item
-                    v-for="item in items"
-                    :key="item.title"
-                    :to="item.link"
-                    link
+                    v-for="user in users"
+                    :key="user.username"
                     >
                     <v-list-item-icon>
-                        <v-icon>{{ item.icon }}</v-icon>
+                        <v-icon color="green">mdi-circle-medium</v-icon>
                     </v-list-item-icon>
 
                     <v-list-item-content>
-                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                        <v-list-item-title>{{ user.username }}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
 
@@ -91,13 +89,14 @@ a {  text-decoration: none;}
       drawerRight: null,
       right: false,
       left: false,
-        items: [
-            { title: 'Posts', icon: 'mdi-pin',  link: '/posts', },
-            { title: 'Categories', icon: 'mdi-view-grid', link: '/categories' },
-           // { title: 'My Account', icon: 'mdi-account', link: '/my-account'},
-            { title: 'Users', icon: 'mdi-account-group-outline', link: '/users' },
-            { title: 'Tags', icon: 'mdi-tag', link: '/tags' },
-        ],
+        // items: [
+        //     { title: 'Posts', icon: 'mdi-pin',  link: '/posts', },
+        //     { title: 'Categories', icon: 'mdi-view-grid', link: '/categories' },
+        //    // { title: 'My Account', icon: 'mdi-account', link: '/my-account'},
+        //     { title: 'Users', icon: 'mdi-account-group-outline', link: '/users' },
+        //     { title: 'Tags', icon: 'mdi-tag', link: '/tags' },
+        // ],
+        users: null,
         mini: true,
     }),
 
@@ -114,7 +113,17 @@ a {  text-decoration: none;}
             this.$router.go({ path: '/login' });
         }
     },
-    mounted() {
-    }
+    created() {
+        Echo.join('users').here((users) => {
+            this.users = users
+            console.log(users)
+        }).joining((user) => {
+            this.users.push(user)
+             console.log(user)
+        }).leaving((user)=> {
+            this.users.splice(this.users.indexOf(user),1)
+             console.log(user)
+        })
+    },
   }
 </script>
