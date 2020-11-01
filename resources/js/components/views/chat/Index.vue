@@ -120,9 +120,6 @@ export default {
         console.log(error);
       })
     },
-    getUserId(){
-      
-    }
   },
   created(){
         this.initialize();
