@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\messages;
+use App\User;
 use Illuminate\Http\Request;
 use Auth;
 class MessagesController extends Controller
@@ -14,7 +15,10 @@ class MessagesController extends Controller
      */
     public function index($user_id)
     {
-        return messages::where('user_id',Auth::user()->id)->get();
+        return messages::
+        where('user_id',Auth::user()->id)
+        ->where('sent_to',$user_id)
+        ->get();
     }
 
     /**
@@ -38,6 +42,7 @@ class MessagesController extends Controller
         $messages = new messages();
         $messages->user_id = Auth::user()->id;
         $messages->message = $request->message;
+        $messages->sent_to = $request->sent_to;
         $messages->save();
     }
 
@@ -84,5 +89,9 @@ class MessagesController extends Controller
     public function destroy(messages $messages)
     {
         //
+    }
+
+    public function getUserId($username){
+        return User::where('username',$username)->first();
     }
 }

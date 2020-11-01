@@ -2685,43 +2685,58 @@ __webpack_require__.r(__webpack_exports__);
     return {
       message: "",
       otherUserMessage: '',
-      messages: []
+      messages: [],
+      active_user: "",
+      user_id: ""
     };
   },
   methods: {
     sendMessage: function sendMessage() {
-      axios.post('/api/send', {
-        message: this.message
-      });
+      var _this = this;
+
+      var username = window.location.href.split('/').pop(); // get the username from url
+      //get the user id through username in the url
+
+      var send_message = function send_message(message) {
+        axios.get('/api/user_id/' + username).then(function (response) {
+          _this.user_id = response.data.id; //send message
+
+          axios.post('/api/send/' + _this.user_id, {
+            message: message,
+            sent_to: _this.user_id
+          });
+        });
+      };
+
+      send_message(this.message);
       this.clearMessage();
     },
     clearMessage: function clearMessage() {
       this.message = '';
     },
     initialize: function initialize() {
-      var _this = this;
+      var _this2 = this;
 
-      axios.get('/api/messages/' + this.$store.getters.getUser.id).then(function (response) {
+      axios.get('/api/messages/' + this.user_id).then(function (response) {
         for (var p = 0; p < response.data.length; p++) {
           var user_n = "";
 
-          if (response.data[p].user_id == _this.$store.getters.getUser.id) {
+          if (response.data[p].user_id == _this2.$store.getters.getUser.id) {
             user_n = "You";
           } else {
-            user_n = _this.$store.getters.getUser.id;
+            user_n = _this2.$store.getters.getUser.id;
           }
 
-          _this.messages.push({
+          _this2.messages.push({
             body: response.data[p].message,
             user: user_n
           });
-
-          console.log(response.data[p]);
         }
       })["catch"](function (error) {
         console.log(error);
       });
-    }
+    },
+    getUserId: function getUserId() {}
   },
   created: function created() {
     this.initialize(); // Echo.join('users').here((users) => {
@@ -94307,7 +94322,7 @@ var routes = [{
 }, {
   path: '/:user_id',
   component: __webpack_require__(/*! ./components/views/chat/Index.vue */ "./resources/js/components/views/chat/Index.vue")["default"],
-  name: 'posts',
+  name: 'user_id',
   meta: {
     requiresAuth: true
   }

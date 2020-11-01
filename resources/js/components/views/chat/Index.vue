@@ -68,21 +68,38 @@ export default {
     return {
       message: "",
       otherUserMessage: '',
-      messages: []
+      messages: [],
+      active_user: "",
+      user_id: "",
     }
   },
   methods: {
     sendMessage () {
-      axios.post('/api/send',{
-        message: this.message
-      })
+      let username = window.location.href.split('/').pop() // get the username from url
+
+      //get the user id through username in the url
+       
+       let send_message = (message) => {
+
+        axios.get('/api/user_id/' + username).then(response => {
+          this.user_id = response.data.id;
+          //send message
+          axios.post('/api/send/' + this.user_id ,{
+            message: message,
+            sent_to: this.user_id
+          });
+
+        });
+       }
+      
+      send_message(this.message);
       this.clearMessage()
     },
     clearMessage () {
       this.message = '';
     },
     initialize () {
-      axios.get('/api/messages/' + this.$store.getters.getUser.id)
+      axios.get('/api/messages/' + this.user_id)
       .then((response) => {
         for(var p = 0; p < response.data.length; p++){
             var user_n = "";
@@ -95,8 +112,7 @@ export default {
               body: response.data[p].message,
               user: user_n
             });
-            
-          console.log(response.data[p])
+
         }
         
       })
@@ -104,6 +120,9 @@ export default {
         console.log(error);
       })
     },
+    getUserId(){
+      
+    }
   },
   created(){
         this.initialize();
