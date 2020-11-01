@@ -46,6 +46,15 @@ let routes = [
         }
     
     },
+    {
+        path: '/:user_id',
+        component: require('./components/views/chat/Index.vue').default,
+        name: 'posts',
+        meta: {
+            requiresAuth: true,
+        }
+    
+    },
     { path: '*', redirect: '/404' },
 
 ]

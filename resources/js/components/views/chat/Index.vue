@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     sendMessage () {
-      axios.post('/api/send/' + this.$store.getters.getUser.id,{
+      axios.post('/api/send',{
         message: this.message
       })
       this.clearMessage()
@@ -98,7 +98,6 @@ export default {
             
           console.log(response.data[p])
         }
-        console.log(response.data[0].id)
         
       })
       .catch(function (error) {

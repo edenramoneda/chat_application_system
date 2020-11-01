@@ -2557,6 +2557,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     source: String
@@ -2689,7 +2690,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     sendMessage: function sendMessage() {
-      axios.post('/api/send/' + this.$store.getters.getUser.id, {
+      axios.post('/api/send', {
         message: this.message
       });
       this.clearMessage();
@@ -2717,8 +2718,6 @@ __webpack_require__.r(__webpack_exports__);
 
           console.log(response.data[p]);
         }
-
-        console.log(response.data[0].id);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -31155,7 +31154,7 @@ var render = function() {
                   _vm._l(_vm.users, function(user) {
                     return _c(
                       "v-list-item",
-                      { key: user.username },
+                      { key: user.id, attrs: { to: "" + user.username } },
                       [
                         _c(
                           "v-list-item-icon",
@@ -94300,6 +94299,13 @@ var routes = [{
   }
 }, {
   path: '/posts',
+  component: __webpack_require__(/*! ./components/views/chat/Index.vue */ "./resources/js/components/views/chat/Index.vue")["default"],
+  name: 'posts',
+  meta: {
+    requiresAuth: true
+  }
+}, {
+  path: '/:user_id',
   component: __webpack_require__(/*! ./components/views/chat/Index.vue */ "./resources/js/components/views/chat/Index.vue")["default"],
   name: 'posts',
   meta: {

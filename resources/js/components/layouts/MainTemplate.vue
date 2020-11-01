@@ -33,7 +33,8 @@
                 <v-list-item class="grey darken-1 text-center">Active Users</v-list-item>
                 <v-list-item
                     v-for="user in users"
-                    :key="user.username"
+                    :key="user.id"
+                    :to="`${user.username}`"
                     >
                     <v-list-item-icon>
                         <v-icon color="green">mdi-circle-medium</v-icon>
