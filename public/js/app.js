@@ -2576,7 +2576,8 @@ __webpack_require__.r(__webpack_exports__);
       //     { title: 'Tags', icon: 'mdi-tag', link: '/tags' },
       // ],
       users: null,
-      mini: true
+      mini: true,
+      typing: false
     };
   },
   computed: {
@@ -2680,6 +2681,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2687,7 +2700,9 @@ __webpack_require__.r(__webpack_exports__);
       otherUserMessage: '',
       messages: [],
       active_user: "",
-      user_id: ""
+      user_id: "",
+      typing: false,
+      users_currently_typing: []
     };
   },
   methods: {
@@ -2705,6 +2720,11 @@ __webpack_require__.r(__webpack_exports__);
             message: message,
             sent_to: _this.user_id
           });
+
+          _this.messages.push({
+            body: message,
+            user: "You"
+          });
         });
       };
 
@@ -2717,34 +2737,77 @@ __webpack_require__.r(__webpack_exports__);
     initialize: function initialize() {
       var _this2 = this;
 
-      axios.get('/api/messages/' + this.user_id).then(function (response) {
-        for (var p = 0; p < response.data.length; p++) {
-          var user_n = "";
+      var username = window.location.href.split('/').pop(); // get the username from url
 
-          if (response.data[p].user_id == _this2.$store.getters.getUser.id) {
-            user_n = "You";
-          } else {
-            user_n = _this2.$store.getters.getUser.id;
+      var created_at = [];
+      axios.get('/api/user_id/' + username).then(function (response) {
+        _this2.user_id = response.data.id;
+        _this2.active_user = response.data.username;
+        axios.get('/api/messages/' + _this2.user_id).then(function (response) {
+          for (var p = 0; p < response.data.length; p++) {
+            var user_n = "";
+
+            if (response.data[p].sent_to != _this2.$store.getters.getUser.id) {
+              user_n = "You";
+            }
+
+            _this2.messages.push({
+              body: response.data[p].message,
+              user: user_n,
+              created_at: response.data[p].created_at
+            });
+
+            _this2.messages.sort(function (a, b) {
+              return a.created_at > b.created_at ? 1 : -1;
+            });
           }
-
-          _this2.messages.push({
-            body: response.data[p].message,
-            user: user_n
-          });
-        }
-      })["catch"](function (error) {
-        console.log(error);
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      });
+    },
+    isTyping: function isTyping() {
+      var channel = Echo["private"]('chat');
+      channel.whisper('typing', {
+        user: this.active_user,
+        typing: true
+      });
+    },
+    nottyping: function nottyping() {
+      var channel = Echo["private"]('chat');
+      channel.whisper('typing', {
+        user: this.active_user,
+        typing: false
       });
     }
   },
   created: function created() {
-    this.initialize(); // Echo.join('users').here((users) => {
-    //     this.users = users
-    // }).joining((user) => {
-    //     this.users.push(user)
-    // }).leaving((user)=> {
-    //     this.users.splice(this.users.indexOf(user),1)
-    // })
+    this.initialize();
+  },
+  mounted: function mounted() {
+    var _this3 = this;
+
+    Echo["private"]('chat').listenForWhisper('typing', function (e) {
+      var getIndex = function getIndex(arr) {
+        return _this3.users_currently_typing.findIndex(function (currently_typing) {
+          return currently_typing.user === arr.user;
+        });
+      };
+
+      var entity_index = getIndex(e);
+
+      if (entity_index === -1) {
+        _this3.users_currently_typing.push(e); //add user to currently typing
+
+
+        entity_index = getIndex(e);
+      }
+
+      if (entity_index !== -1 && !e.typing) {
+        _this3.users_currently_typing.splice(entity_index, 1); //remove user form currently typing
+
+      }
+    });
   }
 });
 
@@ -2912,7 +2975,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.message[data-v-144b1472]{\n  max-width: 50%; \n  border-radius: 5px;\n}\n.message-in[data-v-144b1472]{\n}\n.message-out[data-v-144b1472]{\n  margin-left:67%;\n}\n", ""]);
+exports.push([module.i, "\n#messages[data-v-144b1472]{\n  height:50vh;\n  overflow-y:scroll\n}\n.message[data-v-144b1472]{\n  max-width: 50%; \n  border-radius: 5px;\n}\n.message-in[data-v-144b1472]{\n}\n.message-out[data-v-144b1472]{\n  margin-left:67%;\n}\n", ""]);
 
 // exports
 
@@ -31351,7 +31414,7 @@ var render = function() {
             "v-card",
             { attrs: { elevation: "2" } },
             [
-              _c("v-card-title", [_vm._v(" Name of Active User ")]),
+              _c("v-card-title", [_vm._v(" " + _vm._s(_vm.active_user) + " ")]),
               _vm._v(" "),
               _c("v-card-text", [
                 _c(
@@ -31389,6 +31452,28 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "div",
+                  _vm._l(_vm.users_currently_typing, function(current) {
+                    return _c(
+                      "span",
+                      {
+                        key: current.user,
+                        staticClass: "help-block",
+                        staticStyle: { "font-style": "italic" }
+                      },
+                      [
+                        _vm._v(
+                          "\n              " +
+                            _vm._s(current.user) +
+                            " is typing...\n          "
+                        )
+                      ]
+                    )
+                  }),
+                  0
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
                   { attrs: { id: "input_zone" } },
                   [
                     _c(
@@ -31414,7 +31499,9 @@ var render = function() {
                                         type: "text"
                                       },
                                       on: {
-                                        "click:append-outer": _vm.sendMessage
+                                        "click:append-outer": _vm.sendMessage,
+                                        keydown: _vm.isTyping,
+                                        blur: _vm.nottyping
                                       },
                                       model: {
                                         value: _vm.message,
