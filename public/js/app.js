@@ -2739,6 +2739,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var username = window.location.href.split('/').pop(); // get the username from url
 
+      var created_at = [];
       axios.get('/api/user_id/' + username).then(function (response) {
         _this2.user_id = response.data.id;
         _this2.active_user = response.data.username;
@@ -2752,7 +2753,12 @@ __webpack_require__.r(__webpack_exports__);
 
             _this2.messages.push({
               body: response.data[p].message,
-              user: user_n
+              user: user_n,
+              created_at: response.data[p].created_at
+            });
+
+            _this2.messages.sort(function (a, b) {
+              return a.created_at > b.created_at ? 1 : -1;
             });
           }
         })["catch"](function (error) {

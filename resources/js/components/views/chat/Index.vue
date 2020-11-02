@@ -119,10 +119,11 @@ export default {
     },
     initialize () {
       let username = window.location.href.split('/').pop() // get the username from url
-      
+      let created_at = [];   
           axios.get('/api/user_id/' + username).then(response => {
           this.user_id = response.data.id;
           this.active_user = response.data.username
+      
             axios.get('/api/messages/' + this.user_id)
             .then((response) => {
               for(var p = 0; p < response.data.length; p++){
@@ -130,11 +131,13 @@ export default {
                   if(response.data[p].sent_to != this.$store.getters.getUser.id){
                       user_n = "You";
                   }
+
                   this.messages.push({
                     body: response.data[p].message,
-                    user: user_n
+                    user: user_n,
+                    created_at: response.data[p].created_at
                   });
-
+                  this.messages.sort((a, b) => (a.created_at > b.created_at) ? 1 : -1)
               }
             })
             .catch(function (error) {
@@ -163,6 +166,7 @@ export default {
   created(){
     this.initialize();
   },
+
   mounted(){
     
     
