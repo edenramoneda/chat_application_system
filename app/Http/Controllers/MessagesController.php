@@ -15,10 +15,7 @@ class MessagesController extends Controller
      */
     public function index($user_id)
     {
-        return messages::
-        where('user_id',Auth::user()->id)
-        ->where('sent_to',$user_id)
-        ->get();
+        return messages::whereIn('sent_to', [$user_id, Auth::user()->id])->get();
     }
 
     /**

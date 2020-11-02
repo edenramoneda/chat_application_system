@@ -2680,6 +2680,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2705,6 +2709,11 @@ __webpack_require__.r(__webpack_exports__);
             message: message,
             sent_to: _this.user_id
           });
+
+          _this.messages.push({
+            body: message,
+            user: "You"
+          });
         });
       };
 
@@ -2717,23 +2726,26 @@ __webpack_require__.r(__webpack_exports__);
     initialize: function initialize() {
       var _this2 = this;
 
-      axios.get('/api/messages/' + this.user_id).then(function (response) {
-        for (var p = 0; p < response.data.length; p++) {
-          var user_n = "";
+      var username = window.location.href.split('/').pop(); // get the username from url
 
-          if (response.data[p].user_id == _this2.$store.getters.getUser.id) {
-            user_n = "You";
-          } else {
-            user_n = _this2.$store.getters.getUser.id;
+      axios.get('/api/user_id/' + username).then(function (response) {
+        _this2.user_id = response.data.id;
+        axios.get('/api/messages/' + _this2.user_id).then(function (response) {
+          for (var p = 0; p < response.data.length; p++) {
+            var user_n = "";
+
+            if (response.data[p].sent_to != _this2.$store.getters.getUser.id) {
+              user_n = "You";
+            }
+
+            _this2.messages.push({
+              body: response.data[p].message,
+              user: user_n
+            });
           }
-
-          _this2.messages.push({
-            body: response.data[p].message,
-            user: user_n
-          });
-        }
-      })["catch"](function (error) {
-        console.log(error);
+        })["catch"](function (error) {
+          console.log(error);
+        });
       });
     }
   },
@@ -2912,7 +2924,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.message[data-v-144b1472]{\n  max-width: 50%; \n  border-radius: 5px;\n}\n.message-in[data-v-144b1472]{\n}\n.message-out[data-v-144b1472]{\n  margin-left:67%;\n}\n", ""]);
+exports.push([module.i, "\n#messages[data-v-144b1472]{\n  height:50vh;\n  overflow-y:scroll\n}\n.message[data-v-144b1472]{\n  max-width: 50%; \n  border-radius: 5px;\n}\n.message-in[data-v-144b1472]{\n}\n.message-out[data-v-144b1472]{\n  margin-left:67%;\n}\n", ""]);
 
 // exports
 

@@ -49,6 +49,10 @@
 </template>
 
 <style scoped>
+  #messages{
+    height:50vh;
+    overflow-y:scroll
+  }
   .message{
     max-width: 50%; 
     border-radius: 5px;
@@ -89,6 +93,11 @@ export default {
             sent_to: this.user_id
           });
 
+          this.messages.push({
+            body: message,
+            user: "You"
+          });
+
         });
        }
       
@@ -99,26 +108,32 @@ export default {
       this.message = '';
     },
     initialize () {
-      axios.get('/api/messages/' + this.user_id)
-      .then((response) => {
-        for(var p = 0; p < response.data.length; p++){
-            var user_n = "";
-            if(response.data[p].user_id == this.$store.getters.getUser.id){
-                user_n = "You";
-            }else{
-              user_n = this.$store.getters.getUser.id;
-            }
-            this.messages.push({
-              body: response.data[p].message,
-              user: user_n
-            });
+      let username = window.location.href.split('/').pop() // get the username from url
+      
+          axios.get('/api/user_id/' + username).then(response => {
+          this.user_id = response.data.id;
 
-        }
-        
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
+            axios.get('/api/messages/' + this.user_id)
+            .then((response) => {
+              for(var p = 0; p < response.data.length; p++){
+                  var user_n = "";
+                  if(response.data[p].sent_to != this.$store.getters.getUser.id){
+                      user_n = "You";
+                  }
+                  this.messages.push({
+                    body: response.data[p].message,
+                    user: user_n
+                  });
+
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            })
+
+
+        });
+ 
     },
   },
   created(){
