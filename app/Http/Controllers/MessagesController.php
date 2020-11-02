@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Auth;
 class MessagesController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +17,17 @@ class MessagesController extends Controller
      */
     public function index($user_id)
     {
-        return messages::whereIn('sent_to', [$user_id, Auth::user()->id])->get();
+        $sent_messages = messages::where([
+            'user_id' => Auth::user()->id,
+            'sent_to' => $user_id
+        ])->get()->toArray();
+
+        $receive_messages = messages::where([
+            'sent_to' => Auth::user()->id,
+            'user_id' => $user_id
+        ])->get()->toArray();
+
+        return array_merge($sent_messages, $receive_messages);
     }
 
     /**

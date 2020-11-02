@@ -17,3 +17,9 @@ Broadcast::channel('users', function ($user) {
    // return (int) $user->id === (int) $id;
    return $user;
 });
+
+Broadcast::channel('chat', function ($user) {
+   // return (int) $user->id === (int) $id;
+   //broadcast(new App\Events\TypingEvent($user))->toOthers();
+   return Auth::check();
+});

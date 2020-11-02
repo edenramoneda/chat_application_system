@@ -99,6 +99,7 @@ a {  text-decoration: none;}
         // ],
         users: null,
         mini: true,
+        typing: false
     }),
 
     computed: {
@@ -119,9 +120,10 @@ a {  text-decoration: none;}
             this.users = users
         }).joining((user) => {
             this.users.push(user)
-        }).leaving((user)=> {
+        }).
+        leaving((user)=> {
             this.users.splice(this.users.indexOf(user),1)
-        })
+        });
     },
   }
 </script>

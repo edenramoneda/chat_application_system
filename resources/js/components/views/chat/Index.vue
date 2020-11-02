@@ -6,7 +6,7 @@
       <v-card
         elevation="2"
       >
-        <v-card-title> Name of Active User </v-card-title>
+        <v-card-title> {{ active_user}} </v-card-title>
         <v-card-text>
           <div id="messages">
             <v-list-item
@@ -23,6 +23,12 @@
               </v-list-item-content>
             </v-list-item> 
           </div>
+          
+          <div>
+            <span v-for="current in users_currently_typing" :key="current.user" class="help-block" style="font-style: italic;">
+                {{ current.user }} is typing...
+            </span>
+          </div>
           <div id="input_zone">
             <v-form>
               <v-container fluid>
@@ -36,6 +42,8 @@
                       placeholder="Type a message..."
                       type="text"
                       @click:append-outer="sendMessage"
+                      @keydown="isTyping"
+                      @blur="nottyping"
                     ></v-textarea>
                   </v-col>
                 </v-row>
@@ -75,6 +83,8 @@ export default {
       messages: [],
       active_user: "",
       user_id: "",
+      typing: false,
+      users_currently_typing: []
     }
   },
   methods: {
@@ -112,7 +122,7 @@ export default {
       
           axios.get('/api/user_id/' + username).then(response => {
           this.user_id = response.data.id;
-
+          this.active_user = response.data.username
             axios.get('/api/messages/' + this.user_id)
             .then((response) => {
               for(var p = 0; p < response.data.length; p++){
@@ -133,18 +143,47 @@ export default {
 
 
         });
- 
     },
+    isTyping() {
+      let channel = Echo.private('chat');
+      channel.whisper('typing', {
+        user: this.active_user,
+        typing: true
+      });
+    },
+
+    nottyping() {
+      let channel = Echo.private('chat');
+      channel.whisper('typing', {
+        user: this.active_user,
+        typing: false
+      });
+    }
   },
   created(){
-        this.initialize();
-        // Echo.join('users').here((users) => {
-        //     this.users = users
-        // }).joining((user) => {
-        //     this.users.push(user)
-        // }).leaving((user)=> {
-        //     this.users.splice(this.users.indexOf(user),1)
-        // })
+    this.initialize();
+  },
+  mounted(){
+    
+    
+      Echo.private('chat').listenForWhisper('typing', e => {
+
+        let getIndex  = (arr) => {
+          return this.users_currently_typing.findIndex(currently_typing => currently_typing.user === arr.user);
+        }
+
+        let entity_index = getIndex(e);
+
+        if(entity_index === -1) {
+            this.users_currently_typing.push(e); //add user to currently typing
+            entity_index = getIndex(e);
+        }
+
+        if(entity_index !== -1 && !e.typing) {
+          this.users_currently_typing.splice(entity_index, 1);  //remove user form currently typing
+        }
+        
+      });
   }
 }
 
