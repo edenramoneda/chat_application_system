@@ -123,7 +123,7 @@ a {  text-decoration: none;}
         }).
         leaving((user)=> {
             this.users.splice(this.users.indexOf(user),1)
-        });
+        })
     },
   }
 </script>

@@ -24,6 +24,8 @@ import Echo from 'laravel-echo';
 
 window.Pusher = require('pusher-js');
 
+Pusher.log = function (message) { window.console.log(message); }
+
 window.Echo = new Echo({
     // broadcaster: 'pusher',
     // key: process.env.MIX_PUSHER_APP_KEY,
@@ -31,11 +33,12 @@ window.Echo = new Echo({
    // forceTLS: true,
     broadcaster: 'pusher',
     key: 'local',
-    // cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
     forceTLS: false,
     wsHost: '127.0.0.1',
     wsPort: 6001,
     disableStats: true,
+    encrypted: false,
     auth: {
         headers: {
             Authorization: localStorage.getItem("token_")

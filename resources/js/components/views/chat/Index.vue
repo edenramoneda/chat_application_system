@@ -11,11 +11,12 @@
           <div id="messages">
             <v-list-item
               v-for="message in messages"
-              :key="message.body"
+              :key="message.key"
             >
               <v-list-item-content
                 :class="{ 'blue darken-1 message-out': message.user === 'You', 'blue-grey lighten-1 message-in': message.user !== 'You' }"
                 class="message white--text pa-sm-2" 
+
               >
                 <v-list-item-title 
                   v-text="message.body"
@@ -65,8 +66,6 @@
   max-width: 50%;
   border-radius: 5px;
 }
-.message-in {
-}
 .message-out {
   margin-left: 67%;
 }
@@ -103,11 +102,16 @@ export default {
             body: message,
             user: "You"
           });
+
+
+
         });
       };
 
       send_message(this.message);
       this.clearMessage();
+      
+            
     },
     clearMessage() {
       this.message = "";
@@ -134,6 +138,8 @@ export default {
                 user: user_n,
                 created_at: response.data[p].created_at
               });
+
+              //sort message by created_at
               this.messages.sort(
                 (a, b) => (a.created_at > b.created_at ? 1 : -1)
               );
@@ -143,6 +149,8 @@ export default {
             console.log(error);
           });
       });
+
+                       
     },
     isTyping() {
       
@@ -169,9 +177,8 @@ export default {
     this.initialize();
   },
   mounted() {
-
-    Echo.private(`chat-${this.$store.getters.getUser.username}`).listenForWhisper("typing", e => {
-      console.log(e.user);
+    Echo.private(`chat-${this.$store.getters.getUser.username}`)
+    .listenForWhisper("typing", e => {
       let getIndex = arr => {
         return this.users_currently_typing.findIndex(
           currently_typing => currently_typing.user === arr.user
@@ -189,7 +196,12 @@ export default {
         this.users_currently_typing.splice(entity_index, 1); //remove user form currently typing
       }
     });
-
+    
+    let listenChannel = "chat-sent-to-lei";
+            Echo.private(listenChannel).listen("ChatEvent", e=> {
+              console.log("message")
+            })
+            
   }
 };
 </script>

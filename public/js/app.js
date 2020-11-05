@@ -2690,7 +2690,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2753,7 +2752,8 @@ __webpack_require__.r(__webpack_exports__);
               body: response.data[p].message,
               user: user_n,
               created_at: response.data[p].created_at
-            });
+            }); //sort message by created_at
+
 
             _this2.messages.sort(function (a, b) {
               return a.created_at > b.created_at ? 1 : -1;
@@ -2788,8 +2788,6 @@ __webpack_require__.r(__webpack_exports__);
     var _this3 = this;
 
     Echo["private"]("chat-".concat(this.$store.getters.getUser.username)).listenForWhisper("typing", function (e) {
-      console.log(e.user);
-
       var getIndex = function getIndex(arr) {
         return _this3.users_currently_typing.findIndex(function (currently_typing) {
           return currently_typing.user === arr.user;
@@ -2809,6 +2807,10 @@ __webpack_require__.r(__webpack_exports__);
         _this3.users_currently_typing.splice(entity_index, 1); //remove user form currently typing
 
       }
+    });
+    var listenChannel = "chat-sent-to-lei";
+    Echo["private"](listenChannel).listen("ChatEvent", function (e) {
+      console.log("message");
     });
   }
 });
@@ -2977,7 +2979,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n#messages[data-v-144b1472] {\r\n  height: 50vh;\r\n  overflow-y: scroll;\n}\n.message[data-v-144b1472] {\r\n  max-width: 50%;\r\n  border-radius: 5px;\n}\n.message-in[data-v-144b1472] {\n}\n.message-out[data-v-144b1472] {\r\n  margin-left: 67%;\n}\r\n", ""]);
+exports.push([module.i, "\n#messages[data-v-144b1472] {\r\n  height: 50vh;\r\n  overflow-y: scroll;\n}\n.message[data-v-144b1472] {\r\n  max-width: 50%;\r\n  border-radius: 5px;\n}\n.message-out[data-v-144b1472] {\r\n  margin-left: 67%;\n}\r\n", ""]);
 
 // exports
 
@@ -31425,7 +31427,7 @@ var render = function() {
                   _vm._l(_vm.messages, function(message) {
                     return _c(
                       "v-list-item",
-                      { key: message.body },
+                      { key: message.key },
                       [
                         _c(
                           "v-list-item-content",
@@ -93803,6 +93805,11 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
+
+Pusher.log = function (message) {
+  window.console.log(message);
+};
+
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   // broadcaster: 'pusher',
   // key: process.env.MIX_PUSHER_APP_KEY,
@@ -93810,11 +93817,12 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   // forceTLS: true,
   broadcaster: 'pusher',
   key: 'local',
-  // cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+  cluster: "mt1",
   forceTLS: false,
   wsHost: '127.0.0.1',
   wsPort: 6001,
   disableStats: true,
+  encrypted: false,
   auth: {
     headers: {
       Authorization: localStorage.getItem("token_")
