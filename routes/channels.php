@@ -19,7 +19,14 @@ Broadcast::channel('users', function ($user) {
 });
 
 Broadcast::channel('chat', function ($user) {
-   // return (int) $user->id === (int) $id;
-   //broadcast(new App\Events\TypingEvent($user))->toOthers();
    return Auth::check();
+});
+
+
+Broadcast::channel('chat-{id}', function ($user) {
+    return Auth::check();
+ });
+
+Broadcast::channel('chat-sent-to-{id}', function ($user) {
+    return Auth::check();
 });

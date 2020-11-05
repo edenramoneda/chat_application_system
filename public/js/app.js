@@ -2690,14 +2690,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       message: "",
-      otherUserMessage: '',
+      otherUserMessage: "",
       messages: [],
       active_user: "",
       user_id: "",
@@ -2709,14 +2706,14 @@ __webpack_require__.r(__webpack_exports__);
     sendMessage: function sendMessage() {
       var _this = this;
 
-      var username = window.location.href.split('/').pop(); // get the username from url
+      var username = window.location.href.split("/").pop(); // get the username from url
       //get the user id through username in the url
 
       var send_message = function send_message(message) {
-        axios.get('/api/user_id/' + username).then(function (response) {
+        axios.get("/api/user_id/" + username).then(function (response) {
           _this.user_id = response.data.id; //send message
 
-          axios.post('/api/send/' + _this.user_id, {
+          axios.post("/api/send/" + _this.user_id, {
             message: message,
             sent_to: _this.user_id
           });
@@ -2732,18 +2729,18 @@ __webpack_require__.r(__webpack_exports__);
       this.clearMessage();
     },
     clearMessage: function clearMessage() {
-      this.message = '';
+      this.message = "";
     },
     initialize: function initialize() {
       var _this2 = this;
 
-      var username = window.location.href.split('/').pop(); // get the username from url
+      var username = window.location.href.split("/").pop(); // get the username from url
 
       var created_at = [];
-      axios.get('/api/user_id/' + username).then(function (response) {
+      axios.get("/api/user_id/" + username).then(function (response) {
         _this2.user_id = response.data.id;
         _this2.active_user = response.data.username;
-        axios.get('/api/messages/' + _this2.user_id).then(function (response) {
+        axios.get("/api/messages/" + _this2.user_id).then(function (response) {
           for (var p = 0; p < response.data.length; p++) {
             var user_n = "";
 
@@ -2755,7 +2752,8 @@ __webpack_require__.r(__webpack_exports__);
               body: response.data[p].message,
               user: user_n,
               created_at: response.data[p].created_at
-            });
+            }); //sort message by created_at
+
 
             _this2.messages.sort(function (a, b) {
               return a.created_at > b.created_at ? 1 : -1;
@@ -2767,16 +2765,18 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     isTyping: function isTyping() {
-      var channel = Echo["private"]('chat');
-      channel.whisper('typing', {
-        user: this.active_user,
+      var listenChannel = "chat-" + window.location.href.split("/").pop();
+      var channel = Echo["private"](listenChannel);
+      channel.whisper("typing", {
+        user: this.$store.getters.getUser.username,
         typing: true
       });
     },
     nottyping: function nottyping() {
-      var channel = Echo["private"]('chat');
-      channel.whisper('typing', {
-        user: this.active_user,
+      var listenChannel = "chat-" + window.location.href.split("/").pop();
+      var channel = Echo["private"](listenChannel);
+      channel.whisper("typing", {
+        user: this.$store.getters.getUser.username,
         typing: false
       });
     }
@@ -2787,7 +2787,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this3 = this;
 
-    Echo["private"]('chat').listenForWhisper('typing', function (e) {
+    Echo["private"]("chat-".concat(this.$store.getters.getUser.username)).listenForWhisper("typing", function (e) {
       var getIndex = function getIndex(arr) {
         return _this3.users_currently_typing.findIndex(function (currently_typing) {
           return currently_typing.user === arr.user;
@@ -2807,6 +2807,10 @@ __webpack_require__.r(__webpack_exports__);
         _this3.users_currently_typing.splice(entity_index, 1); //remove user form currently typing
 
       }
+    });
+    var listenChannel = "chat-sent-to-lei";
+    Echo["private"](listenChannel).listen("ChatEvent", function (e) {
+      console.log("message");
     });
   }
 });
@@ -2975,7 +2979,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n#messages[data-v-144b1472]{\n  height:50vh;\n  overflow-y:scroll\n}\n.message[data-v-144b1472]{\n  max-width: 50%; \n  border-radius: 5px;\n}\n.message-in[data-v-144b1472]{\n}\n.message-out[data-v-144b1472]{\n  margin-left:67%;\n}\n", ""]);
+exports.push([module.i, "\n#messages[data-v-144b1472] {\r\n  height: 50vh;\r\n  overflow-y: scroll;\n}\n.message[data-v-144b1472] {\r\n  max-width: 50%;\r\n  border-radius: 5px;\n}\n.message-out[data-v-144b1472] {\r\n  margin-left: 67%;\n}\r\n", ""]);
 
 // exports
 
@@ -31423,7 +31427,7 @@ var render = function() {
                   _vm._l(_vm.messages, function(message) {
                     return _c(
                       "v-list-item",
-                      { key: message.body },
+                      { key: message.key },
                       [
                         _c(
                           "v-list-item-content",
@@ -93801,6 +93805,11 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
+
+Pusher.log = function (message) {
+  window.console.log(message);
+};
+
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   // broadcaster: 'pusher',
   // key: process.env.MIX_PUSHER_APP_KEY,
@@ -93808,11 +93817,12 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   // forceTLS: true,
   broadcaster: 'pusher',
   key: 'local',
-  // cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+  cluster: "mt1",
   forceTLS: false,
   wsHost: '127.0.0.1',
   wsPort: 6001,
   disableStats: true,
+  encrypted: false,
   auth: {
     headers: {
       Authorization: localStorage.getItem("token_")

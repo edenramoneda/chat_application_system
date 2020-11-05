@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\messages;
+use App\Messages;
 use App\User;
+use App\Events\ChatEvent;
 use Illuminate\Http\Request;
 use Auth;
+
 class MessagesController extends Controller
 {
 
@@ -48,11 +50,19 @@ class MessagesController extends Controller
      */
     public function store(Request $request)
     {
-        $messages = new messages();
-        $messages->user_id = Auth::user()->id;
-        $messages->message = $request->message;
-        $messages->sent_to = $request->sent_to;
-        $messages->save();
+        // $messages = new Messages();
+        // $messages->user_id = Auth::user()->id;
+        // $messages->message = $request->message;
+        // $messages->sent_to = $request->sent_to;
+        // $messages->save();
+
+        $messages = Messages::create([
+            'user_id' => Auth::user()->id,
+            'message' =>  $request->message,
+            'sent_to' => $request->sent_to
+        ]);
+     
+        broadcast(new ChatEvent($messages));
     }
 
     /**

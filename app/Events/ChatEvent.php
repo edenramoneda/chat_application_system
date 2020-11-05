@@ -9,20 +9,22 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-
-class TypingEvent implements ShouldBroadcast
+use App\Messages;
+class ChatEvent implements shouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $who_is_typing;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public $messages;
+
+    public function __construct(Messages $messages)
     {
-        $this->who_is_typing = $user;
+        $this->messages = $messages;
+
     }
 
     /**
@@ -32,6 +34,17 @@ class TypingEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('chat');
+        return new PrivateChannel('chat-' .  $this->messages->sent_to);
+    }
+
+    public function broadcastWith()
+    {
+        $this->messages->load('user');
+        return ["message" => $this->messages];
+    }
+
+    public function broadcastAs()
+    {
+        return 'server.created';
     }
 }
