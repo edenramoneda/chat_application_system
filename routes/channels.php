@@ -23,3 +23,10 @@ Broadcast::channel('chat', function ($user) {
    //broadcast(new App\Events\TypingEvent($user))->toOthers();
    return Auth::check();
 });
+
+
+Broadcast::channel('chat-{id}', function ($user) {
+    // return (int) $user->id === (int) $id;
+    //broadcast(new App\Events\TypingEvent($user))->toOthers();
+    return Auth::check();
+ });

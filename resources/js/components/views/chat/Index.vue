@@ -57,48 +57,44 @@
 </template>
 
 <style scoped>
-  #messages{
-    height:50vh;
-    overflow-y:scroll
-  }
-  .message{
-    max-width: 50%; 
-    border-radius: 5px;
-    
-  }
-  .message-in{
-  
-  }
-  .message-out{
-    margin-left:67%;
-  }
+#messages {
+  height: 50vh;
+  overflow-y: scroll;
+}
+.message {
+  max-width: 50%;
+  border-radius: 5px;
+}
+.message-in {
+}
+.message-out {
+  margin-left: 67%;
+}
 </style>
 <script>
-
 export default {
-  data () {
+  data() {
     return {
       message: "",
-      otherUserMessage: '',
+      otherUserMessage: "",
       messages: [],
       active_user: "",
       user_id: "",
       typing: false,
       users_currently_typing: []
-    }
+    };
   },
   methods: {
-    sendMessage () {
-      let username = window.location.href.split('/').pop() // get the username from url
+    sendMessage() {
+      let username = window.location.href.split("/").pop(); // get the username from url
 
       //get the user id through username in the url
-       
-       let send_message = (message) => {
 
-        axios.get('/api/user_id/' + username).then(response => {
+      let send_message = message => {
+        axios.get("/api/user_id/" + username).then(response => {
           this.user_id = response.data.id;
           //send message
-          axios.post('/api/send/' + this.user_id ,{
+          axios.post("/api/send/" + this.user_id, {
             message: message,
             sent_to: this.user_id
           });
@@ -107,88 +103,93 @@ export default {
             body: message,
             user: "You"
           });
-
         });
-       }
-      
+      };
+
       send_message(this.message);
-      this.clearMessage()
+      this.clearMessage();
     },
-    clearMessage () {
-      this.message = '';
+    clearMessage() {
+      this.message = "";
     },
-    initialize () {
-      let username = window.location.href.split('/').pop() // get the username from url
-      let created_at = [];   
-          axios.get('/api/user_id/' + username).then(response => {
-          this.user_id = response.data.id;
-          this.active_user = response.data.username
-      
-            axios.get('/api/messages/' + this.user_id)
-            .then((response) => {
-              for(var p = 0; p < response.data.length; p++){
-                  var user_n = "";
-                  if(response.data[p].sent_to != this.$store.getters.getUser.id){
-                      user_n = "You";
-                  }
 
-                  this.messages.push({
-                    body: response.data[p].message,
-                    user: user_n,
-                    created_at: response.data[p].created_at
-                  });
-                  this.messages.sort((a, b) => (a.created_at > b.created_at) ? 1 : -1)
+    initialize() {
+      let username = window.location.href.split("/").pop(); // get the username from url
+      let created_at = [];
+      axios.get("/api/user_id/" + username).then(response => {
+        this.user_id = response.data.id;
+        this.active_user = response.data.username;
+
+        axios
+          .get("/api/messages/" + this.user_id)
+          .then(response => {
+            for (var p = 0; p < response.data.length; p++) {
+              var user_n = "";
+              if (response.data[p].sent_to != this.$store.getters.getUser.id) {
+                user_n = "You";
               }
-            })
-            .catch(function (error) {
-              console.log(error);
-            })
 
-
-        });
+              this.messages.push({
+                body: response.data[p].message,
+                user: user_n,
+                created_at: response.data[p].created_at
+              });
+              this.messages.sort(
+                (a, b) => (a.created_at > b.created_at ? 1 : -1)
+              );
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      });
     },
     isTyping() {
-      let channel = Echo.private('chat');
-      channel.whisper('typing', {
-        user: this.active_user,
+      
+      let listenChannel = "chat-" + window.location.href.split("/").pop();
+      let channel = Echo.private(listenChannel);
+      channel.whisper("typing", {
+        user: this.$store.getters.getUser.username,
         typing: true
       });
+      
     },
 
     nottyping() {
-      let channel = Echo.private('chat');
-      channel.whisper('typing', {
-        user: this.active_user,
+      let listenChannel = "chat-" + window.location.href.split("/").pop();
+      let channel = Echo.private(listenChannel);
+      channel.whisper("typing", {
+        user: this.$store.getters.getUser.username,
         typing: false
       });
+
     }
   },
-  created(){
+  created() {
     this.initialize();
   },
+  mounted() {
 
-  mounted(){
-    
-    
-      Echo.private('chat').listenForWhisper('typing', e => {
+    Echo.private(`chat-${this.$store.getters.getUser.username}`).listenForWhisper("typing", e => {
+      console.log(e.user);
+      let getIndex = arr => {
+        return this.users_currently_typing.findIndex(
+          currently_typing => currently_typing.user === arr.user
+        );
+      };
 
-        let getIndex  = (arr) => {
-          return this.users_currently_typing.findIndex(currently_typing => currently_typing.user === arr.user);
-        }
+      let entity_index = getIndex(e);
 
-        let entity_index = getIndex(e);
+      if (entity_index === -1) {
+        this.users_currently_typing.push(e); //add user to currently typing
+        entity_index = getIndex(e);
+      }
 
-        if(entity_index === -1) {
-            this.users_currently_typing.push(e); //add user to currently typing
-            entity_index = getIndex(e);
-        }
+      if (entity_index !== -1 && !e.typing) {
+        this.users_currently_typing.splice(entity_index, 1); //remove user form currently typing
+      }
+    });
 
-        if(entity_index !== -1 && !e.typing) {
-          this.users_currently_typing.splice(entity_index, 1);  //remove user form currently typing
-        }
-        
-      });
   }
-}
-
+};
 </script>
