@@ -2557,6 +2557,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     source: String
@@ -31293,11 +31294,9 @@ var render = function() {
                 "v-list",
                 { attrs: { dense: "" } },
                 [
-                  _c(
-                    "v-list-item",
-                    { staticClass: "blue-grey darken-1 text-center" },
-                    [_vm._v("Active Users")]
-                  ),
+                  _c("v-list-item", { staticClass: "light-blue text-center" }, [
+                    _vm._v("Active Users")
+                  ]),
                   _vm._v(" "),
                   _vm._l(_vm.users, function(user) {
                     return _c(
@@ -31326,7 +31325,11 @@ var render = function() {
                       ],
                       1
                     )
-                  })
+                  }),
+                  _vm._v(" "),
+                  _c("v-list-item", { staticClass: "light-blue text-center" }, [
+                    _vm._v("Users")
+                  ])
                 ],
                 2
               )

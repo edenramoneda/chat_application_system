@@ -44,7 +44,7 @@
 
             <v-divider></v-divider>
             <v-list dense>
-                <v-list-item class="blue-grey darken-1 text-center">Active Users</v-list-item>
+                <v-list-item class="light-blue text-center">Active Users</v-list-item>
                 <v-list-item
                     v-for="user in users"
                     :key="user.id"
@@ -58,6 +58,7 @@
                         <v-list-item-title>{{ user.username }}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+                <v-list-item class="light-blue text-center">Users</v-list-item>
             </v-list>
         </v-navigation-drawer>
 
