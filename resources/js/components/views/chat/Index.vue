@@ -4,9 +4,7 @@
       <v-card
         outlined
       >
-        <v-card-title 
-        
-        > {{ active_user}} </v-card-title>
+        <v-card-title> {{ active_user}} </v-card-title>
          <v-divider></v-divider>
         <v-card-text class="message-body">
           <div id="messages">
@@ -16,7 +14,7 @@
             >
            
               <v-list-item-content
-                :class="{ 'blue darken-1 message-out': message.user === 'You', 'blue-grey lighten-1 message-in': message.user !== 'You' }"
+                :class="{ 'blue darken-1 message-out': message.user === 'You', 'grey darken-1 message-in': message.user !== 'You' }"
                 class="message white--text pa-sm-2" 
 
               >
@@ -41,11 +39,14 @@
           </div>
           <v-divider></v-divider>
           <div id="input_zone">
-            <v-form color="grey lighten-5">
+            <v-form color="grey lighten-5" class="form">
               <v-container fluid>
                 <v-textarea
                   v-model="message"
                   :append-outer-icon="'mdi-send'"
+                  dense
+                  flat
+                  hide-details
                   rows="2"
                   outlined
                   placeholder="Type a message..."
@@ -100,7 +101,7 @@
 <script>
 
 export default {
-
+  title: "Real-Time Web Chat Application",
   data() {
     return {
       message: "",
@@ -137,17 +138,12 @@ export default {
             user: "You"
           });
 
-
-
         });
       };
 
       send_message(this.message);
       this.clearMessage();
-      
-            Echo.channel('chat-sent-to-' + window.location.href.split("/").pop()).listen("ChatEvent", e=> {
-              console.log("MESSAGE")
-            })
+
     },
     clearMessage() {
       this.message = "";
@@ -180,6 +176,8 @@ export default {
                 (a, b) => (a.created_at > b.created_at ? 1 : -1)
               );
             }
+
+            document.getElementById('messages').scrollTop  = document.getElementById('messages').scrollHeight + 100;
           })
           .catch(function(error) {
             console.log(error);
@@ -213,6 +211,7 @@ export default {
     this.initialize();
   },
   mounted() {
+
     Echo.private(`chat-${this.$store.getters.getUser.username}`)
     .listenForWhisper("typing", e => {
       let getIndex = arr => {
@@ -232,6 +231,22 @@ export default {
         this.users_currently_typing.splice(entity_index, 1); //remove user form currently typing
       }
     });
+
+    Echo.private('chat-sent-to-' + this.$store.getters.getUser.id).listen("ChatEvent", (e) => {
+      if(e.messages.sent_to === this.$store.getters.getUser.id) {
+        this.messages.push({
+          body: e.messages.message,
+          user: ""
+        });
+        //automatic scroll to down when someone sent you a message
+        document.getElementById('messages').scrollTop  = document.getElementById('messages').scrollHeight + 100;
+
+        //play sound when someone sent you a message
+         var audio = new Audio("http://soundbible.com/mp3/Elevator Ding-SoundBible.com-685385892.mp3");
+        audio.play();
+      }
+    });
+
   },
   directives: {
     focus: {

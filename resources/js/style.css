@@ -1,9 +1,17 @@
 html { overflow-y: hidden }
 
 #messages {
-    height: 60vh;
+    height: 78vh;
     overflow-y: scroll;
+    background-image: url('https://image.freepik.com/free-vector/realistic-snowfall-background_23-2148409802.jpg');
+    background-size: cover;
   }
+#input_zone{
+  position: fixed;
+  bottom:5px;
+  right:0;
+  left:250px;
+}
 .message {
     max-width: 50%;
     border-radius: 5px;
@@ -14,7 +22,9 @@ html { overflow-y: hidden }
 .message-body{
     padding:0;
 }
-
+#input_zone{
+  bottom: 0;
+}
 
 /*emoji*/
 .emoji-invoker {
