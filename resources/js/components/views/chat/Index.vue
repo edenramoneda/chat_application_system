@@ -34,6 +34,9 @@
             <v-form>
               <v-container fluid>
                 <v-row>
+                  <v-col cols="1">
+                     
+                  </v-col>
                   <v-col cols="12">
                     <v-textarea
                       v-model="message"
@@ -47,7 +50,40 @@
                       @click:append-outer="sendMessage"
                       @keydown="isTyping"
                       @blur="nottyping"
-                    ></v-textarea>
+                      >
+                        <template v-slot:prepend>
+                            <emoji-picker @emoji="insert" :search="search">
+                              <div
+                                class="emoji-invoker"
+                                slot="emoji-invoker"
+                                slot-scope="{ events: { click: clickEvent } }"
+                                @click.stop="clickEvent"
+                              >
+                                <v-icon>mdi-emoticon-happy</v-icon>
+                              </div>
+                              <div slot="emoji-picker" slot-scope="{ emojis, insert, display }">
+                                <div class="emoji-picker">
+                                  <div class="emoji-picker__search">
+                                    <input type="text" v-model="search" v-focus>
+                                  </div>
+                                  <div>
+                                    <div v-for="(emojiGroup, category) in emojis" :key="category">
+                                      <h5>{{ category }}</h5>
+                                      <div class="emojis">
+                                        <span
+                                          v-for="(emoji, emojiName) in emojiGroup"
+                                          :key="emojiName"
+                                          @click="insert(emoji)"
+                                          :title="emojiName"
+                                        >{{ emoji }}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </emoji-picker>
+                        </template>
+                    </v-textarea>
                   </v-col>
                 </v-row>
               </v-container>
@@ -59,21 +95,10 @@
   </v-app>
 </template>
 
-<style scoped>
-#messages {
-  height: 50vh;
-  overflow-y: scroll;
-}
-.message {
-  max-width: 50%;
-  border-radius: 5px;
-}
-.message-out {
-  margin-left: 67%;
-}
-</style>
 <script>
+
 export default {
+
   data() {
     return {
       message: "",
@@ -82,10 +107,15 @@ export default {
       active_user: "",
       user_id: "",
       typing: false,
-      users_currently_typing: []
+      users_currently_typing: [],
+      input: '',
+      search: '',
     };
   },
   methods: {
+       insert(emoji) {
+      this.message += emoji
+    },
     sendMessage() {
       let username = window.location.href.split("/").pop(); // get the username from url
 
@@ -200,7 +230,13 @@ export default {
         this.users_currently_typing.splice(entity_index, 1); //remove user form currently typing
       }
     });
-    
-  }
+  },
+  directives: {
+    focus: {
+      inserted(el) {
+        el.focus()
+      },
+    },
+  },
 };
 </script>

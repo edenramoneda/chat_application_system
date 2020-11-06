@@ -21,12 +21,17 @@
         "vue-template-compiler": "^2.6.11"
     },
     "dependencies": {
+        "@kevinfaguiar/vue-twemoji-picker": "^5.7.4",
         "bootstrap": "^4.5.0",
         "ckeditor4-vue": "^1.0.1",
         "colorette": "^1.2.0",
+        "emoji-vue": "^0.2.4",
         "laravel-echo": "^1.9.0",
         "pusher-js": "^7.0.0",
+        "v-emoji-picker": "^2.3.1",
         "vue": "^2.6.11",
+        "vue-chat-emoji": "^1.1.27",
+        "vue-emoji-picker": "^1.0.1",
         "vue-router": "^3.3.4",
         "vue-sweetalert2": "^3.0.6",
         "vuelidate": "^0.7.5",
