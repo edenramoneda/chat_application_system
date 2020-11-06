@@ -30,7 +30,9 @@
     z-index: 2;
     font-family: Montserrat;
     border: 1px solid #ccc;
-    width: 50rem;
+    top:-20rem;
+    left:2rem;
+    width: 15rem;
     height: 20rem;
     overflow: scroll;
     padding: 1rem;

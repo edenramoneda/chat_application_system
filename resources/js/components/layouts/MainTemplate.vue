@@ -10,7 +10,7 @@
             <v-spacer></v-spacer>           
             <v-menu
                 bottom
-                left
+                left   
             >
                 <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -18,6 +18,7 @@
                     icon
                     v-bind="attrs"
                     v-on="on"
+                    title="Logout"
                 >
                     <v-icon>mdi-logout</v-icon>
                 </v-btn>
