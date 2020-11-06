@@ -44,7 +44,7 @@
 
             <v-divider></v-divider>
             <v-list dense>
-                <v-list-item class="grey darken-1 text-center">Active Users</v-list-item>
+                <v-list-item class="blue-grey darken-1 text-center">Active Users</v-list-item>
                 <v-list-item
                     v-for="user in users"
                     :key="user.id"

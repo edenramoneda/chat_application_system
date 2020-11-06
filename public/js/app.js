@@ -2758,9 +2758,6 @@ __webpack_require__.r(__webpack_exports__);
 
       send_message(this.message);
       this.clearMessage();
-      Echo.channel('chat-sent-to-' + window.location.href.split("/").pop()).listen("ChatEvent", function (e) {
-        console.log("MESSAGE");
-      });
     },
     clearMessage: function clearMessage() {
       this.message = "";
@@ -2793,6 +2790,8 @@ __webpack_require__.r(__webpack_exports__);
               return a.created_at > b.created_at ? 1 : -1;
             });
           }
+
+          document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight + 100;
         })["catch"](function (error) {
           console.log(error);
         });
@@ -2840,6 +2839,20 @@ __webpack_require__.r(__webpack_exports__);
       if (entity_index !== -1 && !e.typing) {
         _this3.users_currently_typing.splice(entity_index, 1); //remove user form currently typing
 
+      }
+    });
+    Echo["private"]('chat-sent-to-' + this.$store.getters.getUser.id).listen("ChatEvent", function (e) {
+      if (e.messages.sent_to === _this3.$store.getters.getUser.id) {
+        _this3.messages.push({
+          body: e.messages.message,
+          user: ""
+        }); //automatic scroll to down when someone sent you a message
+
+
+        document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight + 100; //play sound when someone sent you a message
+
+        var audio = new Audio("http://soundbible.com/mp3/Elevator Ding-SoundBible.com-685385892.mp3");
+        audio.play();
       }
     });
   },
@@ -2940,7 +2953,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "html { overflow-y: hidden }\r\n\r\n#messages {\r\n    height: 60vh;\r\n    overflow-y: scroll;\r\n  }\r\n.message {\r\n    max-width: 50%;\r\n    border-radius: 5px;\r\n}\r\n.message-out {\r\n    margin-left: 67%;\r\n}\r\n.message-body{\r\n    padding:0;\r\n}\r\n\r\n\r\n/*emoji*/\r\n.emoji-invoker {\r\n    border-radius: 50%;\r\n    cursor: pointer;\r\n    padding:5;\r\n  }\r\n  .emoji-invoker:hover {\r\n    transform: scale(1.1);\r\n  }\r\n  .emoji-invoker > svg {\r\n    fill: #b1c6d0;\r\n  }\r\n  \r\n  .emoji-picker {\r\n    position: absolute;\r\n    z-index: 2;\r\n    font-family: Montserrat;\r\n    border: 1px solid #ccc;\r\n    top:-20rem;\r\n    left:2rem;\r\n    width: 15rem;\r\n    height: 20rem;\r\n    overflow: scroll;\r\n    padding: 1rem;\r\n    box-sizing: border-box;\r\n    border-radius: 0.5rem;\r\n    background: #fff;\r\n    box-shadow: 1px 1px 8px #c7dbe6;\r\n  }\r\n  .emoji-picker__search {\r\n    display: flex;\r\n  }\r\n  .emoji-picker__search > input {\r\n    flex: 1;\r\n    border-radius: 10rem;\r\n    border: 1px solid #ccc;\r\n    padding: 0.5rem 1rem;\r\n    outline: none;\r\n  }\r\n  .emoji-picker h5 {\r\n    margin-bottom: 0;\r\n    color: #b1b1b1;\r\n    text-transform: uppercase;\r\n    font-size: 0.8rem;\r\n    cursor: default;\r\n  }\r\n  .emoji-picker .emojis {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    justify-content: space-between;\r\n  }\r\n  .emoji-picker .emojis:after {\r\n    content: \"\";\r\n    flex: auto;\r\n  }\r\n  .emoji-picker .emojis span {\r\n    padding: 0.2rem;\r\n    cursor: pointer;\r\n    border-radius: 5px;\r\n  }\r\n  .emoji-picker .emojis span:hover {\r\n    background: #ececec;\r\n    cursor: pointer;\r\n  }\r\n  ", ""]);
+exports.push([module.i, "html { overflow-y: hidden }\r\n\r\n#messages {\r\n    height: 60vh;\r\n    overflow-y: scroll;\r\n  }\r\n.message {\r\n    max-width: 50%;\r\n    border-radius: 5px;\r\n}\r\n.message-out {\r\n    margin-left: 67%;\r\n}\r\n.message-body{\r\n    padding:0;\r\n}\r\n#input_zone{\r\n  bottom: 0;\r\n}\r\n\r\n/*emoji*/\r\n.emoji-invoker {\r\n    border-radius: 50%;\r\n    cursor: pointer;\r\n    padding:5;\r\n  }\r\n  .emoji-invoker:hover {\r\n    transform: scale(1.1);\r\n  }\r\n  .emoji-invoker > svg {\r\n    fill: #b1c6d0;\r\n  }\r\n  \r\n  .emoji-picker {\r\n    position: absolute;\r\n    z-index: 2;\r\n    font-family: Montserrat;\r\n    border: 1px solid #ccc;\r\n    top:-20rem;\r\n    left:2rem;\r\n    width: 15rem;\r\n    height: 20rem;\r\n    overflow: scroll;\r\n    padding: 1rem;\r\n    box-sizing: border-box;\r\n    border-radius: 0.5rem;\r\n    background: #fff;\r\n    box-shadow: 1px 1px 8px #c7dbe6;\r\n  }\r\n  .emoji-picker__search {\r\n    display: flex;\r\n  }\r\n  .emoji-picker__search > input {\r\n    flex: 1;\r\n    border-radius: 10rem;\r\n    border: 1px solid #ccc;\r\n    padding: 0.5rem 1rem;\r\n    outline: none;\r\n  }\r\n  .emoji-picker h5 {\r\n    margin-bottom: 0;\r\n    color: #b1b1b1;\r\n    text-transform: uppercase;\r\n    font-size: 0.8rem;\r\n    cursor: default;\r\n  }\r\n  .emoji-picker .emojis {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    justify-content: space-between;\r\n  }\r\n  .emoji-picker .emojis:after {\r\n    content: \"\";\r\n    flex: auto;\r\n  }\r\n  .emoji-picker .emojis span {\r\n    padding: 0.2rem;\r\n    cursor: pointer;\r\n    border-radius: 5px;\r\n  }\r\n  .emoji-picker .emojis span:hover {\r\n    background: #ececec;\r\n    cursor: pointer;\r\n  }\r\n  ", ""]);
 
 // exports
 
@@ -31280,7 +31293,7 @@ var render = function() {
                 [
                   _c(
                     "v-list-item",
-                    { staticClass: "grey darken-1 text-center" },
+                    { staticClass: "blue-grey darken-1 text-center" },
                     [_vm._v("Active Users")]
                   ),
                   _vm._v(" "),

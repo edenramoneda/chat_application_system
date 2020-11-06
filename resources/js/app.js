@@ -21,3 +21,4 @@ const app = new Vue({
     store,
     vuetify,
 });
+

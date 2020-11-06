@@ -137,17 +137,12 @@ export default {
             user: "You"
           });
 
-
-
         });
       };
 
       send_message(this.message);
       this.clearMessage();
-      
-            Echo.channel('chat-sent-to-' + window.location.href.split("/").pop()).listen("ChatEvent", e=> {
-              console.log("MESSAGE")
-            })
+
     },
     clearMessage() {
       this.message = "";
@@ -180,6 +175,8 @@ export default {
                 (a, b) => (a.created_at > b.created_at ? 1 : -1)
               );
             }
+
+            document.getElementById('messages').scrollTop  = document.getElementById('messages').scrollHeight + 100;
           })
           .catch(function(error) {
             console.log(error);
@@ -213,6 +210,7 @@ export default {
     this.initialize();
   },
   mounted() {
+
     Echo.private(`chat-${this.$store.getters.getUser.username}`)
     .listenForWhisper("typing", e => {
       let getIndex = arr => {
@@ -232,6 +230,22 @@ export default {
         this.users_currently_typing.splice(entity_index, 1); //remove user form currently typing
       }
     });
+
+    Echo.private('chat-sent-to-' + this.$store.getters.getUser.id).listen("ChatEvent", (e) => {
+      if(e.messages.sent_to === this.$store.getters.getUser.id) {
+        this.messages.push({
+          body: e.messages.message,
+          user: ""
+        });
+        //automatic scroll to down when someone sent you a message
+        document.getElementById('messages').scrollTop  = document.getElementById('messages').scrollHeight + 100;
+
+        //play sound when someone sent you a message
+         var audio = new Audio("http://soundbible.com/mp3/Elevator Ding-SoundBible.com-685385892.mp3");
+        audio.play();
+      }
+    });
+
   },
   directives: {
     focus: {
