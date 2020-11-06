@@ -101,7 +101,7 @@
 <script>
 
 export default {
-
+  title: "Real-Time Web Chat Application",
   data() {
     return {
       message: "",
