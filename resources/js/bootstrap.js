@@ -24,7 +24,7 @@ import Echo from 'laravel-echo';
 
 window.Pusher = require('pusher-js');
 
-Pusher.log = function (message) { window.console.log(message); }
+//Pusher.log = function (message) { window.console.log(message); }
 
 window.Echo = new Echo({
     // broadcaster: 'pusher',
@@ -38,7 +38,7 @@ window.Echo = new Echo({
     wsHost: '127.0.0.1',
     wsPort: 6001,
     disableStats: true,
-    encrypted: false,
+    encrypted: true,
     auth: {
         headers: {
             Authorization: localStorage.getItem("token_")
