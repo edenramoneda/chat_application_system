@@ -1,16 +1,20 @@
+html { overflow-y: hidden }
+
 #messages {
-    height: 50vh;
+    height: 60vh;
     overflow-y: scroll;
-    
   }
-  .message {
+.message {
     max-width: 50%;
     border-radius: 5px;
-    
-  }
-  .message-out {
+}
+.message-out {
     margin-left: 67%;
-  }
+}
+.message-body{
+    padding:0;
+}
+
 
 /*emoji*/
 .emoji-invoker {

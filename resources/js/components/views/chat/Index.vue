@@ -1,13 +1,14 @@
 <template>
   <v-app>
-    <v-container
-      fluid
-    >
+
       <v-card
-        elevation="2"
+        outlined
       >
-        <v-card-title> {{ active_user}} </v-card-title>
-        <v-card-text>
+        <v-card-title 
+        
+        > {{ active_user}} </v-card-title>
+         <v-divider></v-divider>
+        <v-card-text class="message-body">
           <div id="messages">
             <v-list-item
               v-for="message in messages"
@@ -30,68 +31,61 @@
                 {{ current.user }} is typing...
             </span>
           </div>
+          <v-divider></v-divider>
           <div id="input_zone">
-            <v-form>
+            <v-form color="grey lighten-5">
               <v-container fluid>
-                <v-row>
-                  <v-col cols="1">
-                     
-                  </v-col>
-                  <v-col cols="12">
-                    <v-textarea
-                      v-model="message"
-                      :append-outer-icon="'mdi-send'"
-                      rows="2"
-                      outlined
-                      placeholder="Type a message..."
-                      type="text"
-                      clear-icon="mdi-close-circle"
-                      clearable
-                      @click:append-outer="sendMessage"
-                      @keydown="isTyping"
-                      @blur="nottyping"
-                      >
-                        <template v-slot:prepend>
-                            <emoji-picker @emoji="insert" :search="search">
-                              <div
-                                class="emoji-invoker"
-                                slot="emoji-invoker"
-                                slot-scope="{ events: { click: clickEvent } }"
-                                @click.stop="clickEvent"
-                              >
-                                <v-icon>mdi-emoticon-happy</v-icon>
+                <v-textarea
+                  v-model="message"
+                  :append-outer-icon="'mdi-send'"
+                  rows="2"
+                  outlined
+                  placeholder="Type a message..."
+                  type="text"
+                  clear-icon="mdi-close-circle"
+                  clearable
+                  @click:append-outer="sendMessage"
+                  @keydown="isTyping"
+                  @blur="nottyping"
+                  >
+                    <template v-slot:prepend>
+                        <emoji-picker @emoji="insert" :search="search">
+                          <div
+                            class="emoji-invoker"
+                            slot="emoji-invoker"
+                            slot-scope="{ events: { click: clickEvent } }"
+                            @click.stop="clickEvent"
+                          >
+                            <v-icon>mdi-emoticon-happy</v-icon>
+                          </div>
+                          <div slot="emoji-picker" slot-scope="{ emojis, insert, display }">
+                            <div class="emoji-picker">
+                              <div class="emoji-picker__search">
+                                <input type="text" v-model="search" v-focus>
                               </div>
-                              <div slot="emoji-picker" slot-scope="{ emojis, insert, display }">
-                                <div class="emoji-picker">
-                                  <div class="emoji-picker__search">
-                                    <input type="text" v-model="search" v-focus>
-                                  </div>
-                                  <div>
-                                    <div v-for="(emojiGroup, category) in emojis" :key="category">
-                                      <h5>{{ category }}</h5>
-                                      <div class="emojis">
-                                        <span
-                                          v-for="(emoji, emojiName) in emojiGroup"
-                                          :key="emojiName"
-                                          @click="insert(emoji)"
-                                          :title="emojiName"
-                                        >{{ emoji }}</span>
-                                      </div>
-                                    </div>
+                              <div>
+                                <div v-for="(emojiGroup, category) in emojis" :key="category">
+                                  <h5>{{ category }}</h5>
+                                  <div class="emojis">
+                                    <span
+                                      v-for="(emoji, emojiName) in emojiGroup"
+                                      :key="emojiName"
+                                      @click="insert(emoji)"
+                                      :title="emojiName"
+                                    >{{ emoji }}</span>
                                   </div>
                                 </div>
                               </div>
-                            </emoji-picker>
-                        </template>
-                    </v-textarea>
-                  </v-col>
-                </v-row>
+                            </div>
+                          </div>
+                        </emoji-picker>
+                    </template>
+                </v-textarea>
               </v-container>
             </v-form>
           </div>
         </v-card-text>
       </v-card>
-    </v-container>
   </v-app>
 </template>
 

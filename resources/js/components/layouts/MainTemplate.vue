@@ -4,21 +4,19 @@
         app
         clipped-right
         v-if="isLoggedIn"
-        color="primary"
+        flat
         >
-            <v-app-bar-nav-icon @click.stop="drawer = !drawer" dark></v-app-bar-nav-icon>
+            <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
             <v-spacer></v-spacer>           
             <v-menu
                 bottom
-                left   
+                left
             >
                 <template v-slot:activator="{ on, attrs }">
                 <v-btn
-                    dark
                     icon
                     v-bind="attrs"
                     v-on="on"
-                    title="Logout"
                 >
                     <v-icon>mdi-logout</v-icon>
                 </v-btn>

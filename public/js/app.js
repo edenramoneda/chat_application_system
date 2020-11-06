@@ -2557,8 +2557,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     source: String
@@ -2619,12 +2617,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -2940,7 +2932,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "#messages {\r\n    height: 50vh;\r\n    overflow-y: scroll;\r\n    \r\n  }\r\n  .message {\r\n    max-width: 50%;\r\n    border-radius: 5px;\r\n    \r\n  }\r\n  .message-out {\r\n    margin-left: 67%;\r\n  }\r\n\r\n/*emoji*/\r\n.emoji-invoker {\r\n    border-radius: 50%;\r\n    cursor: pointer;\r\n    padding:5;\r\n  }\r\n  .emoji-invoker:hover {\r\n    transform: scale(1.1);\r\n  }\r\n  .emoji-invoker > svg {\r\n    fill: #b1c6d0;\r\n  }\r\n  \r\n  .emoji-picker {\r\n    position: absolute;\r\n    z-index: 2;\r\n    font-family: Montserrat;\r\n    border: 1px solid #ccc;\r\n    top:-20rem;\r\n    left:2rem;\r\n    width: 15rem;\r\n    height: 20rem;\r\n    overflow: scroll;\r\n    padding: 1rem;\r\n    box-sizing: border-box;\r\n    border-radius: 0.5rem;\r\n    background: #fff;\r\n    box-shadow: 1px 1px 8px #c7dbe6;\r\n  }\r\n  .emoji-picker__search {\r\n    display: flex;\r\n  }\r\n  .emoji-picker__search > input {\r\n    flex: 1;\r\n    border-radius: 10rem;\r\n    border: 1px solid #ccc;\r\n    padding: 0.5rem 1rem;\r\n    outline: none;\r\n  }\r\n  .emoji-picker h5 {\r\n    margin-bottom: 0;\r\n    color: #b1b1b1;\r\n    text-transform: uppercase;\r\n    font-size: 0.8rem;\r\n    cursor: default;\r\n  }\r\n  .emoji-picker .emojis {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    justify-content: space-between;\r\n  }\r\n  .emoji-picker .emojis:after {\r\n    content: \"\";\r\n    flex: auto;\r\n  }\r\n  .emoji-picker .emojis span {\r\n    padding: 0.2rem;\r\n    cursor: pointer;\r\n    border-radius: 5px;\r\n  }\r\n  .emoji-picker .emojis span:hover {\r\n    background: #ececec;\r\n    cursor: pointer;\r\n  }\r\n  ", ""]);
+exports.push([module.i, "html { overflow-y: hidden }\r\n\r\n#messages {\r\n    height: 60vh;\r\n    overflow-y: scroll;\r\n  }\r\n.message {\r\n    max-width: 50%;\r\n    border-radius: 5px;\r\n}\r\n.message-out {\r\n    margin-left: 67%;\r\n}\r\n.message-body{\r\n    padding:0;\r\n}\r\n\r\n\r\n/*emoji*/\r\n.emoji-invoker {\r\n    border-radius: 50%;\r\n    cursor: pointer;\r\n    padding:5;\r\n  }\r\n  .emoji-invoker:hover {\r\n    transform: scale(1.1);\r\n  }\r\n  .emoji-invoker > svg {\r\n    fill: #b1c6d0;\r\n  }\r\n  \r\n  .emoji-picker {\r\n    position: absolute;\r\n    z-index: 2;\r\n    font-family: Montserrat;\r\n    border: 1px solid #ccc;\r\n    top:-20rem;\r\n    left:2rem;\r\n    width: 15rem;\r\n    height: 20rem;\r\n    overflow: scroll;\r\n    padding: 1rem;\r\n    box-sizing: border-box;\r\n    border-radius: 0.5rem;\r\n    background: #fff;\r\n    box-shadow: 1px 1px 8px #c7dbe6;\r\n  }\r\n  .emoji-picker__search {\r\n    display: flex;\r\n  }\r\n  .emoji-picker__search > input {\r\n    flex: 1;\r\n    border-radius: 10rem;\r\n    border: 1px solid #ccc;\r\n    padding: 0.5rem 1rem;\r\n    outline: none;\r\n  }\r\n  .emoji-picker h5 {\r\n    margin-bottom: 0;\r\n    color: #b1b1b1;\r\n    text-transform: uppercase;\r\n    font-size: 0.8rem;\r\n    cursor: default;\r\n  }\r\n  .emoji-picker .emojis {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    justify-content: space-between;\r\n  }\r\n  .emoji-picker .emojis:after {\r\n    content: \"\";\r\n    flex: auto;\r\n  }\r\n  .emoji-picker .emojis span {\r\n    padding: 0.2rem;\r\n    cursor: pointer;\r\n    border-radius: 5px;\r\n  }\r\n  .emoji-picker .emojis span:hover {\r\n    background: #ececec;\r\n    cursor: pointer;\r\n  }\r\n  ", ""]);
 
 // exports
 
@@ -31180,10 +31172,9 @@ var render = function() {
       _vm.isLoggedIn
         ? _c(
             "v-app-bar",
-            { attrs: { app: "", "clipped-right": "", color: "primary" } },
+            { attrs: { app: "", "clipped-right": "", flat: "" } },
             [
               _c("v-app-bar-nav-icon", {
-                attrs: { dark: "" },
                 on: {
                   click: function($event) {
                     $event.stopPropagation()
@@ -31208,9 +31199,7 @@ var render = function() {
                             "v-btn",
                             _vm._g(
                               _vm._b(
-                                {
-                                  attrs: { dark: "", icon: "", title: "Logout" }
-                                },
+                                { attrs: { icon: "" } },
                                 "v-btn",
                                 attrs,
                                 false
@@ -31226,7 +31215,7 @@ var render = function() {
                   ],
                   null,
                   false,
-                  3558415609
+                  147375407
                 )
               })
             ],
@@ -31447,320 +31436,277 @@ var render = function() {
     "v-app",
     [
       _c(
-        "v-container",
-        { attrs: { fluid: "" } },
+        "v-card",
+        { attrs: { outlined: "" } },
         [
+          _c("v-card-title", [_vm._v(" " + _vm._s(_vm.active_user) + " ")]),
+          _vm._v(" "),
+          _c("v-divider"),
+          _vm._v(" "),
           _c(
-            "v-card",
-            { attrs: { elevation: "2" } },
+            "v-card-text",
+            { staticClass: "message-body" },
             [
-              _c("v-card-title", [_vm._v(" " + _vm._s(_vm.active_user) + " ")]),
+              _c(
+                "div",
+                { attrs: { id: "messages" } },
+                _vm._l(_vm.messages, function(message) {
+                  return _c(
+                    "v-list-item",
+                    { key: message.key },
+                    [
+                      _c(
+                        "v-list-item-content",
+                        {
+                          staticClass: "message white--text pa-sm-2",
+                          class: {
+                            "blue darken-1 message-out": message.user === "You",
+                            "blue-grey lighten-1 message-in":
+                              message.user !== "You"
+                          }
+                        },
+                        [
+                          _c("v-list-item-title", {
+                            domProps: { textContent: _vm._s(message.body) }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                }),
+                1
+              ),
               _vm._v(" "),
-              _c("v-card-text", [
-                _c(
-                  "div",
-                  { attrs: { id: "messages" } },
-                  _vm._l(_vm.messages, function(message) {
-                    return _c(
-                      "v-list-item",
-                      { key: message.key },
-                      [
-                        _c(
-                          "v-list-item-content",
-                          {
-                            staticClass: "message white--text pa-sm-2",
-                            class: {
-                              "blue darken-1 message-out":
-                                message.user === "You",
-                              "blue-grey lighten-1 message-in":
-                                message.user !== "You"
-                            }
-                          },
-                          [
-                            _c("v-list-item-title", {
-                              domProps: { textContent: _vm._s(message.body) }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  }),
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  _vm._l(_vm.users_currently_typing, function(current) {
-                    return _c(
-                      "span",
-                      {
-                        key: current.user,
-                        staticClass: "help-block",
-                        staticStyle: { "font-style": "italic" }
-                      },
-                      [
-                        _vm._v(
-                          "\n              " +
-                            _vm._s(current.user) +
-                            " is typing...\n          "
-                        )
-                      ]
-                    )
-                  }),
-                  0
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { attrs: { id: "input_zone" } },
-                  [
-                    _c(
-                      "v-form",
-                      [
-                        _c(
-                          "v-container",
-                          { attrs: { fluid: "" } },
-                          [
-                            _c(
-                              "v-row",
-                              [
-                                _c("v-col", { attrs: { cols: "1" } }),
-                                _vm._v(" "),
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "12" } },
-                                  [
-                                    _c("v-textarea", {
-                                      attrs: {
-                                        "append-outer-icon": "mdi-send",
-                                        rows: "2",
-                                        outlined: "",
-                                        placeholder: "Type a message...",
-                                        type: "text",
-                                        "clear-icon": "mdi-close-circle",
-                                        clearable: ""
-                                      },
-                                      on: {
-                                        "click:append-outer": _vm.sendMessage,
-                                        keydown: _vm.isTyping,
-                                        blur: _vm.nottyping
-                                      },
+              _c(
+                "div",
+                _vm._l(_vm.users_currently_typing, function(current) {
+                  return _c(
+                    "span",
+                    {
+                      key: current.user,
+                      staticClass: "help-block",
+                      staticStyle: { "font-style": "italic" }
+                    },
+                    [
+                      _vm._v(
+                        "\n              " +
+                          _vm._s(current.user) +
+                          " is typing...\n          "
+                      )
+                    ]
+                  )
+                }),
+                0
+              ),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "div",
+                { attrs: { id: "input_zone" } },
+                [
+                  _c(
+                    "v-form",
+                    { attrs: { color: "grey lighten-5" } },
+                    [
+                      _c(
+                        "v-container",
+                        { attrs: { fluid: "" } },
+                        [
+                          _c("v-textarea", {
+                            attrs: {
+                              "append-outer-icon": "mdi-send",
+                              rows: "2",
+                              outlined: "",
+                              placeholder: "Type a message...",
+                              type: "text",
+                              "clear-icon": "mdi-close-circle",
+                              clearable: ""
+                            },
+                            on: {
+                              "click:append-outer": _vm.sendMessage,
+                              keydown: _vm.isTyping,
+                              blur: _vm.nottyping
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("emoji-picker", {
+                                      attrs: { search: _vm.search },
+                                      on: { emoji: _vm.insert },
                                       scopedSlots: _vm._u([
                                         {
-                                          key: "prepend",
-                                          fn: function() {
-                                            return [
-                                              _c("emoji-picker", {
-                                                attrs: { search: _vm.search },
-                                                on: { emoji: _vm.insert },
-                                                scopedSlots: _vm._u([
-                                                  {
-                                                    key: "emoji-invoker",
-                                                    fn: function(ref) {
-                                                      var clickEvent =
-                                                        ref.events.click
+                                          key: "emoji-invoker",
+                                          fn: function(ref) {
+                                            var clickEvent = ref.events.click
+                                            return _c(
+                                              "div",
+                                              {
+                                                staticClass: "emoji-invoker",
+                                                on: {
+                                                  click: function($event) {
+                                                    $event.stopPropagation()
+                                                    return clickEvent($event)
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c("v-icon", [
+                                                  _vm._v("mdi-emoticon-happy")
+                                                ])
+                                              ],
+                                              1
+                                            )
+                                          }
+                                        },
+                                        {
+                                          key: "emoji-picker",
+                                          fn: function(ref) {
+                                            var emojis = ref.emojis
+                                            var insert = ref.insert
+                                            var display = ref.display
+                                            return _c("div", {}, [
+                                              _c(
+                                                "div",
+                                                { staticClass: "emoji-picker" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    {
+                                                      staticClass:
+                                                        "emoji-picker__search"
+                                                    },
+                                                    [
+                                                      _c("input", {
+                                                        directives: [
+                                                          {
+                                                            name: "model",
+                                                            rawName: "v-model",
+                                                            value: _vm.search,
+                                                            expression: "search"
+                                                          },
+                                                          {
+                                                            name: "focus",
+                                                            rawName: "v-focus"
+                                                          }
+                                                        ],
+                                                        attrs: { type: "text" },
+                                                        domProps: {
+                                                          value: _vm.search
+                                                        },
+                                                        on: {
+                                                          input: function(
+                                                            $event
+                                                          ) {
+                                                            if (
+                                                              $event.target
+                                                                .composing
+                                                            ) {
+                                                              return
+                                                            }
+                                                            _vm.search =
+                                                              $event.target.value
+                                                          }
+                                                        }
+                                                      })
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    _vm._l(emojis, function(
+                                                      emojiGroup,
+                                                      category
+                                                    ) {
                                                       return _c(
                                                         "div",
-                                                        {
-                                                          staticClass:
-                                                            "emoji-invoker",
-                                                          on: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              $event.stopPropagation()
-                                                              return clickEvent(
-                                                                $event
-                                                              )
-                                                            }
-                                                          }
-                                                        },
+                                                        { key: category },
                                                         [
-                                                          _c("v-icon", [
+                                                          _c("h5", [
                                                             _vm._v(
-                                                              "mdi-emoticon-happy"
+                                                              _vm._s(category)
                                                             )
-                                                          ])
-                                                        ],
-                                                        1
-                                                      )
-                                                    }
-                                                  },
-                                                  {
-                                                    key: "emoji-picker",
-                                                    fn: function(ref) {
-                                                      var emojis = ref.emojis
-                                                      var insert = ref.insert
-                                                      var display = ref.display
-                                                      return _c("div", {}, [
-                                                        _c(
-                                                          "div",
-                                                          {
-                                                            staticClass:
-                                                              "emoji-picker"
-                                                          },
-                                                          [
-                                                            _c(
-                                                              "div",
-                                                              {
-                                                                staticClass:
-                                                                  "emoji-picker__search"
-                                                              },
-                                                              [
-                                                                _c("input", {
-                                                                  directives: [
-                                                                    {
-                                                                      name:
-                                                                        "model",
-                                                                      rawName:
-                                                                        "v-model",
-                                                                      value:
-                                                                        _vm.search,
-                                                                      expression:
-                                                                        "search"
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "emojis"
+                                                            },
+                                                            _vm._l(
+                                                              emojiGroup,
+                                                              function(
+                                                                emoji,
+                                                                emojiName
+                                                              ) {
+                                                                return _c(
+                                                                  "span",
+                                                                  {
+                                                                    key: emojiName,
+                                                                    attrs: {
+                                                                      title: emojiName
                                                                     },
-                                                                    {
-                                                                      name:
-                                                                        "focus",
-                                                                      rawName:
-                                                                        "v-focus"
-                                                                    }
-                                                                  ],
-                                                                  attrs: {
-                                                                    type: "text"
-                                                                  },
-                                                                  domProps: {
-                                                                    value:
-                                                                      _vm.search
-                                                                  },
-                                                                  on: {
-                                                                    input: function(
-                                                                      $event
-                                                                    ) {
-                                                                      if (
+                                                                    on: {
+                                                                      click: function(
                                                                         $event
-                                                                          .target
-                                                                          .composing
                                                                       ) {
-                                                                        return
-                                                                      }
-                                                                      _vm.search =
-                                                                        $event.target.value
-                                                                    }
-                                                                  }
-                                                                })
-                                                              ]
-                                                            ),
-                                                            _vm._v(" "),
-                                                            _c(
-                                                              "div",
-                                                              _vm._l(
-                                                                emojis,
-                                                                function(
-                                                                  emojiGroup,
-                                                                  category
-                                                                ) {
-                                                                  return _c(
-                                                                    "div",
-                                                                    {
-                                                                      key: category
-                                                                    },
-                                                                    [
-                                                                      _c("h5", [
-                                                                        _vm._v(
-                                                                          _vm._s(
-                                                                            category
-                                                                          )
+                                                                        return insert(
+                                                                          emoji
                                                                         )
-                                                                      ]),
-                                                                      _vm._v(
-                                                                        " "
-                                                                      ),
-                                                                      _c(
-                                                                        "div",
-                                                                        {
-                                                                          staticClass:
-                                                                            "emojis"
-                                                                        },
-                                                                        _vm._l(
-                                                                          emojiGroup,
-                                                                          function(
-                                                                            emoji,
-                                                                            emojiName
-                                                                          ) {
-                                                                            return _c(
-                                                                              "span",
-                                                                              {
-                                                                                key: emojiName,
-                                                                                attrs: {
-                                                                                  title: emojiName
-                                                                                },
-                                                                                on: {
-                                                                                  click: function(
-                                                                                    $event
-                                                                                  ) {
-                                                                                    return insert(
-                                                                                      emoji
-                                                                                    )
-                                                                                  }
-                                                                                }
-                                                                              },
-                                                                              [
-                                                                                _vm._v(
-                                                                                  _vm._s(
-                                                                                    emoji
-                                                                                  )
-                                                                                )
-                                                                              ]
-                                                                            )
-                                                                          }
-                                                                        ),
-                                                                        0
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      _vm._s(
+                                                                        emoji
                                                                       )
-                                                                    ]
-                                                                  )
-                                                                }
-                                                              ),
-                                                              0
-                                                            )
-                                                          ]
-                                                        )
-                                                      ])
-                                                    }
-                                                  }
-                                                ])
-                                              })
-                                            ]
-                                          },
-                                          proxy: true
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              }
+                                                            ),
+                                                            0
+                                                          )
+                                                        ]
+                                                      )
+                                                    }),
+                                                    0
+                                                  )
+                                                ]
+                                              )
+                                            ])
+                                          }
                                         }
-                                      ]),
-                                      model: {
-                                        value: _vm.message,
-                                        callback: function($$v) {
-                                          _vm.message = $$v
-                                        },
-                                        expression: "message"
-                                      }
+                                      ])
                                     })
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ])
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.message,
+                              callback: function($$v) {
+                                _vm.message = $$v
+                              },
+                              expression: "message"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             1
           )
