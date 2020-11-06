@@ -7,7 +7,22 @@
         color="primary"
         >
             <v-app-bar-nav-icon @click.stop="drawer = !drawer" dark></v-app-bar-nav-icon>
-            <v-spacer></v-spacer>
+            <v-spacer></v-spacer>           
+            <v-menu
+                bottom
+                left
+            >
+                <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    dark
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                >
+                    <v-icon>mdi-logout</v-icon>
+                </v-btn>
+                </template>
+          </v-menu>
         </v-app-bar>
 
         <v-navigation-drawer
@@ -44,21 +59,6 @@
                         <v-list-item-title>{{ user.username }}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-
-
-                <v-list-item
-                    @click="logout"
-                    link
-                    >
-                    <v-list-item-icon>
-                        <v-icon>mdi-logout</v-icon>
-                    </v-list-item-icon>
-
-                    <v-list-item-content>
-                        <v-list-item-title>Logout</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-
             </v-list>
         </v-navigation-drawer>
 

@@ -42,6 +42,8 @@
                       outlined
                       placeholder="Type a message..."
                       type="text"
+                      clear-icon="mdi-close-circle"
+                      clearable
                       @click:append-outer="sendMessage"
                       @keydown="isTyping"
                       @blur="nottyping"
@@ -111,7 +113,9 @@ export default {
       send_message(this.message);
       this.clearMessage();
       
-            
+            Echo.channel('chat-sent-to-' + window.location.href.split("/").pop()).listen("ChatEvent", e=> {
+              console.log("MESSAGE")
+            })
     },
     clearMessage() {
       this.message = "";
@@ -197,11 +201,6 @@ export default {
       }
     });
     
-    let listenChannel = "chat-sent-to-lei";
-            Echo.private(listenChannel).listen("ChatEvent", e=> {
-              console.log("message")
-            })
-            
   }
 };
 </script>

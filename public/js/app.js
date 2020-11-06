@@ -2690,6 +2690,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2727,6 +2729,9 @@ __webpack_require__.r(__webpack_exports__);
 
       send_message(this.message);
       this.clearMessage();
+      Echo.channel('chat-sent-to-' + window.location.href.split("/").pop()).listen("ChatEvent", function (e) {
+        console.log("MESSAGE");
+      });
     },
     clearMessage: function clearMessage() {
       this.message = "";
@@ -2807,10 +2812,6 @@ __webpack_require__.r(__webpack_exports__);
         _this3.users_currently_typing.splice(entity_index, 1); //remove user form currently typing
 
       }
-    });
-    var listenChannel = "chat-sent-to-lei";
-    Echo["private"](listenChannel).listen("ChatEvent", function (e) {
-      console.log("message");
     });
   }
 });
@@ -31173,7 +31174,41 @@ var render = function() {
                 }
               }),
               _vm._v(" "),
-              _c("v-spacer")
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c("v-menu", {
+                attrs: { bottom: "", left: "" },
+                scopedSlots: _vm._u(
+                  [
+                    {
+                      key: "activator",
+                      fn: function(ref) {
+                        var on = ref.on
+                        var attrs = ref.attrs
+                        return [
+                          _c(
+                            "v-btn",
+                            _vm._g(
+                              _vm._b(
+                                { attrs: { dark: "", icon: "" } },
+                                "v-btn",
+                                attrs,
+                                false
+                              ),
+                              on
+                            ),
+                            [_c("v-icon", [_vm._v("mdi-logout")])],
+                            1
+                          )
+                        ]
+                      }
+                    }
+                  ],
+                  null,
+                  false,
+                  2939516325
+                )
+              })
             ],
             1
           )
@@ -31259,26 +31294,7 @@ var render = function() {
                       ],
                       1
                     )
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-item",
-                    { attrs: { link: "" }, on: { click: _vm.logout } },
-                    [
-                      _c(
-                        "v-list-item-icon",
-                        [_c("v-icon", [_vm._v("mdi-logout")])],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-item-content",
-                        [_c("v-list-item-title", [_vm._v("Logout")])],
-                        1
-                      )
-                    ],
-                    1
-                  )
+                  })
                 ],
                 2
               )
@@ -31500,7 +31516,9 @@ var render = function() {
                                         rows: "2",
                                         outlined: "",
                                         placeholder: "Type a message...",
-                                        type: "text"
+                                        type: "text",
+                                        "clear-icon": "mdi-close-circle",
+                                        clearable: ""
                                       },
                                       on: {
                                         "click:append-outer": _vm.sendMessage,
@@ -93804,11 +93822,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  */
 
 
-window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
-
-Pusher.log = function (message) {
-  window.console.log(message);
-};
+window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js"); //Pusher.log = function (message) { window.console.log(message); }
 
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   // broadcaster: 'pusher',
@@ -93822,7 +93836,7 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   wsHost: '127.0.0.1',
   wsPort: 6001,
   disableStats: true,
-  encrypted: false,
+  encrypted: true,
   auth: {
     headers: {
       Authorization: localStorage.getItem("token_")
