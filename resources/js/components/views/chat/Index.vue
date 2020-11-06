@@ -14,14 +14,22 @@
               v-for="message in messages"
               :key="message.key"
             >
+           
               <v-list-item-content
                 :class="{ 'blue darken-1 message-out': message.user === 'You', 'blue-grey lighten-1 message-in': message.user !== 'You' }"
                 class="message white--text pa-sm-2" 
 
               >
+                                 <template v-slot:prepend>
+              <span class="help-block" style="font-style: italic;">
+                {{ message.created_at}}
+              </span>
+              </template>
                 <v-list-item-title 
                   v-text="message.body"
-                ></v-list-item-title>
+                >
+                
+                </v-list-item-title>
               </v-list-item-content>
             </v-list-item> 
           </div>

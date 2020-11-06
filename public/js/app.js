@@ -2708,6 +2708,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -31463,9 +31471,38 @@ var render = function() {
                             "blue darken-1 message-out": message.user === "You",
                             "blue-grey lighten-1 message-in":
                               message.user !== "You"
-                          }
+                          },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass: "help-block",
+                                        staticStyle: { "font-style": "italic" }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n              " +
+                                            _vm._s(message.created_at) +
+                                            "\n            "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ],
+                            null,
+                            true
+                          )
                         },
                         [
+                          _vm._v(" "),
                           _c("v-list-item-title", {
                             domProps: { textContent: _vm._s(message.body) }
                           })
