@@ -1,9 +1,17 @@
 html { overflow-y: hidden }
 
 #messages {
-    height: 60vh;
+    height: 78vh;
     overflow-y: scroll;
+    background-image: url('https://thumbs.dreamstime.com/z/abstract-light-blue-snowflake-pattern-white-background-winter-texture-seamless-illustration-pale-84574071.jpg');
+    background-size: cover;
   }
+#input_zone{
+  position: fixed;
+  bottom:5px;
+  right:0;
+  left:250px;
+}
 .message {
     max-width: 50%;
     border-radius: 5px;

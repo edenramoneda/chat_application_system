@@ -4,9 +4,7 @@
       <v-card
         outlined
       >
-        <v-card-title 
-        
-        > {{ active_user}} </v-card-title>
+        <v-card-title> {{ active_user}} </v-card-title>
          <v-divider></v-divider>
         <v-card-text class="message-body">
           <div id="messages">
@@ -16,7 +14,7 @@
             >
            
               <v-list-item-content
-                :class="{ 'blue darken-1 message-out': message.user === 'You', 'blue-grey lighten-1 message-in': message.user !== 'You' }"
+                :class="{ 'blue darken-1 message-out': message.user === 'You', 'grey darken-1 message-in': message.user !== 'You' }"
                 class="message white--text pa-sm-2" 
 
               >
@@ -41,11 +39,14 @@
           </div>
           <v-divider></v-divider>
           <div id="input_zone">
-            <v-form color="grey lighten-5">
+            <v-form color="grey lighten-5" class="form">
               <v-container fluid>
                 <v-textarea
                   v-model="message"
                   :append-outer-icon="'mdi-send'"
+                  dense
+                  flat
+                  hide-details
                   rows="2"
                   outlined
                   placeholder="Type a message..."
