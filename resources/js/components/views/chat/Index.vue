@@ -14,7 +14,7 @@
             <v-list-item
               v-for="message in messages"
               :key="message.key"
-              class="mt-4"
+              class="mt-5"
             >
 
               <v-list-item-content
@@ -169,19 +169,21 @@ export default {
                 user_n = "You";
               }
 
-              var date = new Date(response.data[p].created_at);
+            //  var date = new Date(response.data[p].created_at);
 
-              var timeofdate = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+              // var timeofdate = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+              // var fulldate = date.toDateString() + " " + timeofdate;
               this.messages.push({
                 body: response.data[p].message,
                 user: user_n,
-                created_at: date.toDateString() + " " + timeofdate
+                created_at: response.data[p].created_at
               });
 
               //sort message by created_at
               this.messages.sort(
                 (a, b) => (a.created_at > b.created_at ? 1 : -1)
               );
+
             }
 
             document.getElementById('messages').scrollTop  = document.getElementById('messages').scrollHeight + 100;
