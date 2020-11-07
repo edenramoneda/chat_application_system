@@ -4,31 +4,31 @@
       <v-card
         outlined
       >
-        <v-card-title> {{ active_user}} </v-card-title>
+        <v-card-title>
+          <v-icon :color="online_indicator">mdi-circle-medium</v-icon>
+          {{ active_user}} 
+        </v-card-title>
          <v-divider></v-divider>
         <v-card-text class="message-body">
           <div id="messages">
             <v-list-item
               v-for="message in messages"
               :key="message.key"
+              class="mt-5"
             >
-           
-              <v-list-item-content
-                :class="{ 'blue darken-1 message-out': message.user === 'You', 'grey darken-1 message-in': message.user !== 'You' }"
-                class="message white--text pa-sm-2" 
 
+              <v-list-item-content
+                :class="{ 'green accent-4 message-out': message.user === 'You', 'teal darken-2 message-in': message.user !== 'You' }"
+                class="message white--text pa-sm-2" 
               >
-                                 <template v-slot:prepend>
-              <span class="help-block" style="font-style: italic;">
-                {{ message.created_at}}
-              </span>
-              </template>
                 <v-list-item-title 
                   v-text="message.body"
-                >
-                
+                > 
                 </v-list-item-title>
               </v-list-item-content>
+              <p :class="{ 'date-message-out': message.user === 'You', 'date-message-in': message.user !== 'You' }">
+                  <span> {{ message.created_at }} </span>
+              </p>
             </v-list-item> 
           </div>
           
@@ -56,6 +56,7 @@
                   @click:append-outer="sendMessage"
                   @keydown="isTyping"
                   @blur="nottyping"
+                  required
                   >
                     <template v-slot:prepend>
                         <emoji-picker @emoji="insert" :search="search">
@@ -99,13 +100,14 @@
 </template>
 
 <script>
-
 export default {
-  title: "Real-Time Web Chat Application",
+  title: "Aerolink | Messenger | " + window.location.href.split("/").pop(),
+  props:{
+    online_indicator: String
+  },
   data() {
     return {
       message: "",
-      otherUserMessage: "",
       messages: [],
       active_user: "",
       user_id: "",
@@ -120,10 +122,12 @@ export default {
       this.message += emoji
     },
     sendMessage() {
+
       let username = window.location.href.split("/").pop(); // get the username from url
 
       //get the user id through username in the url
-
+      //  @click="$router.push({ path: `/message/${user.username}` })"
+          
       let send_message = message => {
         axios.get("/api/user_id/" + username).then(response => {
           this.user_id = response.data.id;
@@ -140,10 +144,10 @@ export default {
 
         });
       };
-
-      send_message(this.message);
-      this.clearMessage();
-
+      if(!this.message == ""){
+        send_message(this.message);
+        this.clearMessage();
+      }
     },
     clearMessage() {
       this.message = "";
@@ -165,6 +169,10 @@ export default {
                 user_n = "You";
               }
 
+            //  var date = new Date(response.data[p].created_at);
+
+              // var timeofdate = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+              // var fulldate = date.toDateString() + " " + timeofdate;
               this.messages.push({
                 body: response.data[p].message,
                 user: user_n,
@@ -175,6 +183,7 @@ export default {
               this.messages.sort(
                 (a, b) => (a.created_at > b.created_at ? 1 : -1)
               );
+
             }
 
             document.getElementById('messages').scrollTop  = document.getElementById('messages').scrollHeight + 100;

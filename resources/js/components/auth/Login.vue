@@ -83,7 +83,7 @@
 import { required, minLength } from "vuelidate/lib/validators";
 import { mapState, mapActions } from "vuex";
 export default {
-  title: 'BCP CMS | Login',
+  title: 'Aerolink | Login',
   validations: {
     username: { required },
     password: { required, minLength: minLength(8) }
@@ -159,7 +159,7 @@ export default {
                   ] = localStorage.getItem("token_");
                   // this.$router.push('');
 
-                  window.location.href = '/posts';
+                  window.location.href = '/welcome';
               }
            }
         })

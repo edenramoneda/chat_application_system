@@ -1,11 +1,14 @@
 html { overflow-y: hidden }
 
 #messages {
-    height: 78vh;
-    overflow-y: scroll;
-    background-image: url('https://image.freepik.com/free-vector/realistic-snowfall-background_23-2148409802.jpg');
-    background-size: cover;
-  }
+  height: 78vh;
+  overflow-y: scroll;
+  background-color: #f2f2f2;
+  
+}
+.v-list-item__title{
+  white-space: normal;
+}
 #input_zone{
   position: fixed;
   bottom:5px;
@@ -13,8 +16,8 @@ html { overflow-y: hidden }
   left:250px;
 }
 .message {
-    max-width: 50%;
-    border-radius: 5px;
+  max-width: 50%;
+  border-radius: 5px;
 }
 .message-out {
     margin-left: 67%;
@@ -25,7 +28,22 @@ html { overflow-y: hidden }
 #input_zone{
   bottom: 0;
 }
-
+.date-message-out{
+  position: absolute;
+  font-size: 14px;
+  right: 1rem;
+  top: -1rem;
+  color: #4d4d4d;
+  line-height:1;
+}
+.date-message-in{
+  position: absolute;
+  font-size: 14px;
+  left: 1rem;
+  top: -1rem;
+  color: #4d4d4d;
+  line-height:1;
+}
 /*emoji*/
 .emoji-invoker {
     border-radius: 50%;
@@ -57,6 +75,7 @@ html { overflow-y: hidden }
   }
   .emoji-picker__search {
     display: flex;
+    
   }
   .emoji-picker__search > input {
     flex: 1;

@@ -38,18 +38,18 @@ let routes = [
         }
     },
     {
-        path: '/posts',
+        path: '/message/:username',
         component: require('./components/views/chat/Index.vue').default,
-        name: 'posts',
+        name: '/message/:username',
         meta: {
             requiresAuth: true,
         }
     
     },
     {
-        path: '/:user_id',
-        component: require('./components/views/chat/Index.vue').default,
-        name: 'user_id',
+        path: '/welcome',
+        component: require('./components/views/Welcome.vue').default,
+        name: 'welcome',
         meta: {
             requiresAuth: true,
         }
@@ -71,7 +71,7 @@ router.beforeEach((to, from, next) => {
 
         if (localStorage.getItem('token_')) {
             axios.get('/api/user/user').catch(err => {
-                next('/login') //401 
+                next('/') //401 
             }).then(response => {
                 
             store.commit("setUser", response.data);
@@ -90,7 +90,7 @@ router.beforeEach((to, from, next) => {
                 // }
             });
         } else {
-            next('/login') // if not, redirect to login page.
+            next('/') // if not, redirect to login page.
         }
     } 
     else {
