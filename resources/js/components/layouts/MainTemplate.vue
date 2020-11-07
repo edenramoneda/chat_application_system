@@ -72,7 +72,7 @@
         temporary
         ></v-navigation-drawer>  
         <v-main>
-            <router-view></router-view>
+            <router-view :online_indicator="online_indicator"></router-view>
         </v-main>
      </v-app>
 </template>
@@ -95,7 +95,8 @@ a {  text-decoration: none;}
     left: false,
     users: [],
     mini: true,
-    typing: false
+    typing: false,
+    online_indicator: "",
     }),
 
     computed: {
@@ -118,12 +119,15 @@ a {  text-decoration: none;}
                     username: u.username, link: '/message/' + u.username
                 })
             });
+            this.online_indicator = "green"
          //   this.users = users
         }).joining((user) => {
              this.users.push(user)
+             this.online_indicator = "green"
         }).
         leaving((user)=> {
             this.users.splice(this.users.indexOf(user),1)
+            this.online_indicator = ""
         })
     },
   }

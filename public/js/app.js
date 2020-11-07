@@ -2574,7 +2574,8 @@ __webpack_require__.r(__webpack_exports__);
       left: false,
       users: [],
       mini: true,
-      typing: false
+      typing: false,
+      online_indicator: ""
     };
   },
   computed: {
@@ -2600,11 +2601,16 @@ __webpack_require__.r(__webpack_exports__);
           username: u.username,
           link: '/message/' + u.username
         });
-      }); //   this.users = users
+      });
+      _this.online_indicator = "green"; //   this.users = users
     }).joining(function (user) {
       _this.users.push(user);
+
+      _this.online_indicator = "green";
     }).leaving(function (user) {
       _this.users.splice(_this.users.indexOf(user), 1);
+
+      _this.online_indicator = "";
     });
   }
 });
@@ -2719,9 +2725,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   title: "Aerolink | Messenger | " + window.location.href.split("/").pop(),
+  props: {
+    online_indicator: String
+  },
   data: function data() {
     return {
       message: "",
@@ -2744,6 +2752,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var username = window.location.href.split("/").pop(); // get the username from url
       //get the user id through username in the url
+      //  @click="$router.push({ path: `/message/${user.username}` })"
 
       var send_message = function send_message(message) {
         axios.get("/api/user_id/" + username).then(function (response) {
@@ -31365,7 +31374,15 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c("v-main", [_c("router-view")], 1)
+      _c(
+        "v-main",
+        [
+          _c("router-view", {
+            attrs: { online_indicator: _vm.online_indicator }
+          })
+        ],
+        1
+      )
     ],
     1
   )
@@ -31526,7 +31543,16 @@ var render = function() {
         "v-card",
         { attrs: { outlined: "" } },
         [
-          _c("v-card-title", [_vm._v(" " + _vm._s(_vm.active_user) + " ")]),
+          _c(
+            "v-card-title",
+            [
+              _c("v-icon", { attrs: { color: _vm.online_indicator } }, [
+                _vm._v("mdi-circle-medium")
+              ]),
+              _vm._v("\n\n         " + _vm._s(_vm.active_user) + " \n      ")
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
@@ -31550,38 +31576,9 @@ var render = function() {
                             "green accent-4 message-out":
                               message.user === "You",
                             "teal darken-2 message-in": message.user !== "You"
-                          },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "prepend",
-                                fn: function() {
-                                  return [
-                                    _c(
-                                      "span",
-                                      {
-                                        staticClass: "help-block",
-                                        staticStyle: { "font-style": "italic" }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n              " +
-                                            _vm._s(message.created_at) +
-                                            "\n            "
-                                        )
-                                      ]
-                                    )
-                                  ]
-                                },
-                                proxy: true
-                              }
-                            ],
-                            null,
-                            true
-                          )
+                          }
                         },
                         [
-                          _vm._v(" "),
                           _c("v-list-item-title", {
                             domProps: { textContent: _vm._s(message.body) }
                           })

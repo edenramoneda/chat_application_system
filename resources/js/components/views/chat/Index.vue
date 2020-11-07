@@ -4,7 +4,12 @@
       <v-card
         outlined
       >
-        <v-card-title> {{ active_user}} </v-card-title>
+        <v-card-title>
+          
+                <v-icon :color="online_indicator">mdi-circle-medium</v-icon>
+
+           {{ active_user}} 
+        </v-card-title>
          <v-divider></v-divider>
         <v-card-text class="message-body">
           <div id="messages">
@@ -18,15 +23,9 @@
                 class="message white--text pa-sm-2" 
 
               >
-                                 <template v-slot:prepend>
-              <span class="help-block" style="font-style: italic;">
-                {{ message.created_at}}
-              </span>
-              </template>
                 <v-list-item-title 
                   v-text="message.body"
-                >
-                
+                > 
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item> 
@@ -102,6 +101,9 @@
 
 export default {
   title: "Aerolink | Messenger | " + window.location.href.split("/").pop(),
+  props:{
+    online_indicator: String
+  },
   data() {
     return {
       message: "",
@@ -123,7 +125,8 @@ export default {
       let username = window.location.href.split("/").pop(); // get the username from url
 
       //get the user id through username in the url
-
+      //  @click="$router.push({ path: `/message/${user.username}` })"
+          
       let send_message = message => {
         axios.get("/api/user_id/" + username).then(response => {
           this.user_id = response.data.id;
