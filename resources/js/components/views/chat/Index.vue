@@ -16,6 +16,7 @@
             <v-list-item
               v-for="message in messages"
               :key="message.key"
+              class="mt-2"
             >
            
               <v-list-item-content
@@ -55,6 +56,7 @@
                   @click:append-outer="sendMessage"
                   @keydown="isTyping"
                   @blur="nottyping"
+                  required
                   >
                     <template v-slot:prepend>
                         <emoji-picker @emoji="insert" :search="search">
@@ -98,7 +100,6 @@
 </template>
 
 <script>
-
 export default {
   title: "Aerolink | Messenger | " + window.location.href.split("/").pop(),
   props:{
@@ -107,7 +108,6 @@ export default {
   data() {
     return {
       message: "",
-      otherUserMessage: "",
       messages: [],
       active_user: "",
       user_id: "",
@@ -122,6 +122,7 @@ export default {
       this.message += emoji
     },
     sendMessage() {
+
       let username = window.location.href.split("/").pop(); // get the username from url
 
       //get the user id through username in the url
@@ -143,10 +144,10 @@ export default {
 
         });
       };
-
-      send_message(this.message);
-      this.clearMessage();
-
+      if(!this.message == ""){
+        send_message(this.message);
+        this.clearMessage();
+      }
     },
     clearMessage() {
       this.message = "";

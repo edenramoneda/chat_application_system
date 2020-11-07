@@ -2587,6 +2587,9 @@ __webpack_require__.r(__webpack_exports__);
     logout: function logout() {
       this.$store.commit("setUser", {});
       localStorage.removeItem('token_');
+      Echo.leaveChannel('users', function (e) {
+        console.log("logout");
+      });
       this.$router.go({
         path: '/'
       });
@@ -2725,6 +2728,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   title: "Aerolink | Messenger | " + window.location.href.split("/").pop(),
   props: {
@@ -2733,7 +2738,6 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       message: "",
-      otherUserMessage: "",
       messages: [],
       active_user: "",
       user_id: "",
@@ -2770,8 +2774,10 @@ __webpack_require__.r(__webpack_exports__);
         });
       };
 
-      send_message(this.message);
-      this.clearMessage();
+      if (!this.message == "") {
+        send_message(this.message);
+        this.clearMessage();
+      }
     },
     clearMessage: function clearMessage() {
       this.message = "";
@@ -31317,10 +31323,7 @@ var render = function() {
                   _vm._l(_vm.users, function(user) {
                     return _c(
                       "v-list-item",
-                      {
-                        key: user.username,
-                        attrs: { href: user.link, link: "" }
-                      },
+                      { key: user.id, attrs: { href: user.link, link: "" } },
                       [
                         _c(
                           "v-list-item-icon",
@@ -31353,7 +31356,7 @@ var render = function() {
                   _c(
                     "v-list-item",
                     { staticClass: "green darken-1 text-center" },
-                    [_vm._v("Users")]
+                    [_vm._v("Offline")]
                   )
                 ],
                 2
@@ -31566,7 +31569,7 @@ var render = function() {
                 _vm._l(_vm.messages, function(message) {
                   return _c(
                     "v-list-item",
-                    { key: message.key },
+                    { key: message.key, staticClass: "mt-2" },
                     [
                       _c(
                         "v-list-item-content",
@@ -31639,7 +31642,8 @@ var render = function() {
                               placeholder: "Type a message...",
                               type: "text",
                               "clear-icon": "mdi-close-circle",
-                              clearable: ""
+                              clearable: "",
+                              required: ""
                             },
                             on: {
                               "click:append-outer": _vm.sendMessage,

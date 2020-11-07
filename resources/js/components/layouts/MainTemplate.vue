@@ -48,7 +48,7 @@
                 <v-list-item class="green darken-1 text-center">Active Users</v-list-item>
                 <v-list-item
                     v-for="user in users"
-                    :key="user.username"
+                    :key="user.id"
                     :href="user.link"
                     link
                     >
@@ -62,7 +62,7 @@
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item class="green darken-1 text-center">Users</v-list-item>
+                <v-list-item class="green darken-1 text-center">Offline</v-list-item>
             </v-list>
         </v-navigation-drawer>
 
@@ -84,10 +84,12 @@
 a {  text-decoration: none;}
 </style>
 <script>
-  export default {
+
+export default {
     props: {
       source: String,
     },
+    
     data: () => ({
     drawer: null,
     drawerRight: null,
@@ -109,7 +111,10 @@ a {  text-decoration: none;}
         logout() {
             this.$store.commit("setUser", {});
             localStorage.removeItem('token_');
-            this.$router.go({ path: '/' });
+            Echo.leaveChannel('users', (e) => {
+                console.log("logout")
+            });
+            this.$router.go({ path: '/' }); 
         }
     },
     created() {
@@ -130,5 +135,5 @@ a {  text-decoration: none;}
             this.online_indicator = ""
         })
     },
-  }
+}
 </script>
