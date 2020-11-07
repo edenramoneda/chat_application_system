@@ -2799,10 +2799,13 @@ __webpack_require__.r(__webpack_exports__);
               user_n = "You";
             }
 
+            var date = new Date(response.data[p].created_at);
+            var timeofdate = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
             _this2.messages.push({
               body: response.data[p].message,
               user: user_n,
-              created_at: response.data[p].created_at
+              created_at: date.toDateString() + " " + timeofdate
             }); //sort message by created_at
 
 
@@ -2973,7 +2976,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "html { overflow-y: hidden }\r\n\r\n#messages {\r\n    height: 78vh;\r\n    overflow-y: scroll;\r\n    background-color: #f2f2f2;\r\n  }\r\n#input_zone{\r\n  position: fixed;\r\n  bottom:5px;\r\n  right:0;\r\n  left:250px;\r\n}\r\n.message {\r\n    max-width: 50%;\r\n    border-radius: 5px;\r\n}\r\n.message-out {\r\n    margin-left: 67%;\r\n}\r\n.message-body{\r\n    padding:0;\r\n}\r\n#input_zone{\r\n  bottom: 0;\r\n}\r\n\r\n/*emoji*/\r\n.emoji-invoker {\r\n    border-radius: 50%;\r\n    cursor: pointer;\r\n    padding:5;\r\n  }\r\n  .emoji-invoker:hover {\r\n    transform: scale(1.1);\r\n  }\r\n  .emoji-invoker > svg {\r\n    fill: #b1c6d0;\r\n  }\r\n  \r\n  .emoji-picker {\r\n    position: absolute;\r\n    z-index: 2;\r\n    font-family: Montserrat;\r\n    border: 1px solid #ccc;\r\n    top:-20rem;\r\n    left:2rem;\r\n    width: 15rem;\r\n    height: 20rem;\r\n    overflow: scroll;\r\n    padding: 1rem;\r\n    box-sizing: border-box;\r\n    border-radius: 0.5rem;\r\n    background: #fff;\r\n    box-shadow: 1px 1px 8px #c7dbe6;\r\n  }\r\n  .emoji-picker__search {\r\n    display: flex;\r\n    \r\n  }\r\n  .emoji-picker__search > input {\r\n    flex: 1;\r\n    border-radius: 10rem;\r\n    border: 1px solid #ccc;\r\n    padding: 0.5rem 1rem;\r\n    outline: none;\r\n  }\r\n  .emoji-picker h5 {\r\n    margin-bottom: 0;\r\n    color: #b1b1b1;\r\n    text-transform: uppercase;\r\n    font-size: 0.8rem;\r\n    cursor: default;\r\n  }\r\n  .emoji-picker .emojis {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    justify-content: space-between;\r\n  }\r\n  .emoji-picker .emojis:after {\r\n    content: \"\";\r\n    flex: auto;\r\n  }\r\n  .emoji-picker .emojis span {\r\n    padding: 0.2rem;\r\n    cursor: pointer;\r\n    border-radius: 5px;\r\n  }\r\n  .emoji-picker .emojis span:hover {\r\n    background: #ececec;\r\n    cursor: pointer;\r\n  }\r\n  ", ""]);
+exports.push([module.i, "html { overflow-y: hidden }\r\n\r\n#messages {\r\n    height: 78vh;\r\n    overflow-y: scroll;\r\n    background-color: #f2f2f2;\r\n   \r\n  }\r\n#input_zone{\r\n  position: fixed;\r\n  bottom:5px;\r\n  right:0;\r\n  left:250px;\r\n}\r\n.message {\r\n    max-width: 50%;\r\n    border-radius: 5px;\r\n}\r\n.message-out {\r\n    margin-left: 67%;\r\n}\r\n.message-body{\r\n    padding:0;\r\n}\r\n#input_zone{\r\n  bottom: 0;\r\n}\r\n.date-message-out{\r\n  position: absolute;\r\n  font-size: 14px;\r\n  right: 1rem;\r\n  top: -1rem;\r\n  color: #4d4d4d;\r\n}\r\n.date-message-in{\r\n  position: absolute;\r\n  font-size: 14px;\r\n  left: 1rem;\r\n  top: -1rem;\r\n  color: #4d4d4d;\r\n}\r\n/*emoji*/\r\n.emoji-invoker {\r\n    border-radius: 50%;\r\n    cursor: pointer;\r\n    padding:5;\r\n  }\r\n  .emoji-invoker:hover {\r\n    transform: scale(1.1);\r\n  }\r\n  .emoji-invoker > svg {\r\n    fill: #b1c6d0;\r\n  }\r\n  \r\n  .emoji-picker {\r\n    position: absolute;\r\n    z-index: 2;\r\n    font-family: Montserrat;\r\n    border: 1px solid #ccc;\r\n    top:-20rem;\r\n    left:2rem;\r\n    width: 15rem;\r\n    height: 20rem;\r\n    overflow: scroll;\r\n    padding: 1rem;\r\n    box-sizing: border-box;\r\n    border-radius: 0.5rem;\r\n    background: #fff;\r\n    box-shadow: 1px 1px 8px #c7dbe6;\r\n  }\r\n  .emoji-picker__search {\r\n    display: flex;\r\n    \r\n  }\r\n  .emoji-picker__search > input {\r\n    flex: 1;\r\n    border-radius: 10rem;\r\n    border: 1px solid #ccc;\r\n    padding: 0.5rem 1rem;\r\n    outline: none;\r\n  }\r\n  .emoji-picker h5 {\r\n    margin-bottom: 0;\r\n    color: #b1b1b1;\r\n    text-transform: uppercase;\r\n    font-size: 0.8rem;\r\n    cursor: default;\r\n  }\r\n  .emoji-picker .emojis {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    justify-content: space-between;\r\n  }\r\n  .emoji-picker .emojis:after {\r\n    content: \"\";\r\n    flex: auto;\r\n  }\r\n  .emoji-picker .emojis span {\r\n    padding: 0.2rem;\r\n    cursor: pointer;\r\n    border-radius: 5px;\r\n  }\r\n  .emoji-picker .emojis span:hover {\r\n    background: #ececec;\r\n    cursor: pointer;\r\n  }\r\n  ", ""]);
 
 // exports
 
@@ -31552,7 +31555,7 @@ var render = function() {
               _c("v-icon", { attrs: { color: _vm.online_indicator } }, [
                 _vm._v("mdi-circle-medium")
               ]),
-              _vm._v("\n\n         " + _vm._s(_vm.active_user) + " \n      ")
+              _vm._v("\n        " + _vm._s(_vm.active_user) + " \n      ")
             ],
             1
           ),
@@ -31569,7 +31572,7 @@ var render = function() {
                 _vm._l(_vm.messages, function(message) {
                   return _c(
                     "v-list-item",
-                    { key: message.key, staticClass: "mt-2" },
+                    { key: message.key, staticClass: "mt-4" },
                     [
                       _c(
                         "v-list-item-content",
@@ -31587,6 +31590,21 @@ var render = function() {
                           })
                         ],
                         1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "p",
+                        {
+                          class: {
+                            "date-message-out": message.user === "You",
+                            "date-message-in": message.user !== "You"
+                          }
+                        },
+                        [
+                          _c("span", [
+                            _vm._v(" " + _vm._s(message.created_at) + " ")
+                          ])
+                        ]
                       )
                     ],
                     1

@@ -5,10 +5,8 @@
         outlined
       >
         <v-card-title>
-          
-                <v-icon :color="online_indicator">mdi-circle-medium</v-icon>
-
-           {{ active_user}} 
+          <v-icon :color="online_indicator">mdi-circle-medium</v-icon>
+          {{ active_user}} 
         </v-card-title>
          <v-divider></v-divider>
         <v-card-text class="message-body">
@@ -16,19 +14,21 @@
             <v-list-item
               v-for="message in messages"
               :key="message.key"
-              class="mt-2"
+              class="mt-4"
             >
-           
+
               <v-list-item-content
                 :class="{ 'green accent-4 message-out': message.user === 'You', 'teal darken-2 message-in': message.user !== 'You' }"
                 class="message white--text pa-sm-2" 
-
               >
                 <v-list-item-title 
                   v-text="message.body"
                 > 
                 </v-list-item-title>
               </v-list-item-content>
+              <p :class="{ 'date-message-out': message.user === 'You', 'date-message-in': message.user !== 'You' }">
+                  <span> {{ message.created_at }} </span>
+              </p>
             </v-list-item> 
           </div>
           
@@ -169,10 +169,13 @@ export default {
                 user_n = "You";
               }
 
+              var date = new Date(response.data[p].created_at);
+
+              var timeofdate = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
               this.messages.push({
                 body: response.data[p].message,
                 user: user_n,
-                created_at: response.data[p].created_at
+                created_at: date.toDateString() + " " + timeofdate
               });
 
               //sort message by created_at

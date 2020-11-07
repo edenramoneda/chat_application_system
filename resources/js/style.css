@@ -4,6 +4,7 @@ html { overflow-y: hidden }
     height: 78vh;
     overflow-y: scroll;
     background-color: #f2f2f2;
+   
   }
 #input_zone{
   position: fixed;
@@ -24,7 +25,20 @@ html { overflow-y: hidden }
 #input_zone{
   bottom: 0;
 }
-
+.date-message-out{
+  position: absolute;
+  font-size: 14px;
+  right: 1rem;
+  top: -1rem;
+  color: #4d4d4d;
+}
+.date-message-in{
+  position: absolute;
+  font-size: 14px;
+  left: 1rem;
+  top: -1rem;
+  color: #4d4d4d;
+}
 /*emoji*/
 .emoji-invoker {
     border-radius: 50%;
