@@ -159,7 +159,7 @@ export default {
                   ] = localStorage.getItem("token_");
                   // this.$router.push('');
 
-                  window.location.href = '/posts';
+                  window.location.href = '/welcome';
               }
            }
         })

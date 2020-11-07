@@ -14,7 +14,7 @@
             >
            
               <v-list-item-content
-                :class="{ 'blue darken-1 message-out': message.user === 'You', 'grey darken-1 message-in': message.user !== 'You' }"
+                :class="{ 'green accent-4 message-out': message.user === 'You', 'teal darken-2 message-in': message.user !== 'You' }"
                 class="message white--text pa-sm-2" 
 
               >
@@ -101,7 +101,7 @@
 <script>
 
 export default {
-  title: "Real-Time Web Chat Application",
+  title: "Aerolink | Messenger | " + window.location.href.split("/").pop(),
   data() {
     return {
       message: "",

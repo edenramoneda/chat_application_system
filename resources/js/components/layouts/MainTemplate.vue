@@ -17,6 +17,7 @@
                     icon
                     v-bind="attrs"
                     v-on="on"
+                    @click="logout"
                 >
                     <v-icon>mdi-logout</v-icon>
                 </v-btn>
@@ -44,21 +45,24 @@
 
             <v-divider></v-divider>
             <v-list dense>
-                <v-list-item class="light-blue text-center">Active Users</v-list-item>
+                <v-list-item class="green darken-1 text-center">Active Users</v-list-item>
                 <v-list-item
                     v-for="user in users"
-                    :key="user.id"
-                    :to="`${user.username}`"
+                    :key="user.username"
+                    :href="user.link"
+                    link
                     >
                     <v-list-item-icon>
                         <v-icon color="green">mdi-circle-medium</v-icon>
                     </v-list-item-icon>
 
                     <v-list-item-content>
-                        <v-list-item-title>{{ user.username }}</v-list-item-title>
+                        <v-list-item-title>
+                            {{ user.username }}
+                        </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item class="light-blue text-center">Users</v-list-item>
+                <v-list-item class="green darken-1 text-center">Users</v-list-item>
             </v-list>
         </v-navigation-drawer>
 
@@ -84,22 +88,14 @@ a {  text-decoration: none;}
     props: {
       source: String,
     },
-    
     data: () => ({
-     drawer: null,
-      drawerRight: null,
-      right: false,
-      left: false,
-        // items: [
-        //     { title: 'Posts', icon: 'mdi-pin',  link: '/posts', },
-        //     { title: 'Categories', icon: 'mdi-view-grid', link: '/categories' },
-        //    // { title: 'My Account', icon: 'mdi-account', link: '/my-account'},
-        //     { title: 'Users', icon: 'mdi-account-group-outline', link: '/users' },
-        //     { title: 'Tags', icon: 'mdi-tag', link: '/tags' },
-        // ],
-        users: null,
-        mini: true,
-        typing: false
+    drawer: null,
+    drawerRight: null,
+    right: false,
+    left: false,
+    users: [],
+    mini: true,
+    typing: false
     }),
 
     computed: {
@@ -112,14 +108,19 @@ a {  text-decoration: none;}
         logout() {
             this.$store.commit("setUser", {});
             localStorage.removeItem('token_');
-            this.$router.go({ path: '/login' });
+            this.$router.go({ path: '/' });
         }
     },
     created() {
         Echo.join('users').here((users) => {
-            this.users = users
+            users.forEach(u => {
+                this.users.push({
+                    username: u.username, link: '/message/' + u.username
+                })
+            });
+         //   this.users = users
         }).joining((user) => {
-            this.users.push(user)
+             this.users.push(user)
         }).
         leaving((user)=> {
             this.users.splice(this.users.indexOf(user),1)
