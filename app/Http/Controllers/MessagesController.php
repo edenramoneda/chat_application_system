@@ -7,7 +7,7 @@ use App\User;
 use App\Events\ChatEvent;
 use Illuminate\Http\Request;
 use Auth;
-
+use App\Events\LoginandOutEvent;
 class MessagesController extends Controller
 {
 
@@ -112,5 +112,17 @@ class MessagesController extends Controller
 
     public function getUserId($username){
         return User::where('username',$username)->first();
+    }
+
+    public function logout(){
+
+        $user = User::where('id', 1)
+        ->update(['is_online' => 0]);
+        
+        event(new LoginandOutEvent($user));
+    }
+
+    public function getAllUsers(){
+        return User::where('is_online',0)->get();
     }
 }

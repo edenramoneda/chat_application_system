@@ -2563,6 +2563,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     source: String
@@ -2576,7 +2593,8 @@ __webpack_require__.r(__webpack_exports__);
       users: [],
       mini: true,
       typing: false,
-      online_indicator: ""
+      online_indicator: "",
+      offline_users: []
     };
   },
   computed: {
@@ -2586,36 +2604,55 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     logout: function logout() {
-      this.$store.commit("setUser", {});
+      this.$store.commit("setser", {});
       localStorage.removeItem('token_');
-      Echo.leaveChannel('users', function (e) {
-        console.log("logout");
-      });
       this.$router.go({
         path: '/'
+      }); // axios.post("api/logout").then(response => {
+      //     console.log(response);
+      // }).catch(err => {
+      //     console.log(err);
+      // });
+    },
+    allUsers: function allUsers() {
+      var _this = this;
+
+      axios.get("/api/all-users").then(function (response) {
+        response.data.forEach(function (u) {
+          _this.offline_users.push({
+            fullname: u.fullname,
+            username: u.username
+          });
+        }); // console.log(response);
+      })["catch"](function (errors) {// console.log(errors);
       });
     }
   },
   created: function created() {
-    var _this = this;
+    var _this2 = this;
 
     Echo.join('users').here(function (users) {
       users.forEach(function (u) {
-        _this.users.push({
+        _this2.users.push({
+          fullname: u.fullname,
           username: u.username,
           link: '/message/' + u.username
         });
       });
-      _this.online_indicator = "green"; //   this.users = users
+      _this2.online_indicator = "green"; //   this.users = users
     }).joining(function (user) {
-      _this.users.push(user);
+      _this2.users.push(user);
 
-      _this.online_indicator = "green";
+      _this2.online_indicator = "green";
     }).leaving(function (user) {
-      _this.users.splice(_this.users.indexOf(user), 1);
+      _this2.users.splice(_this2.users.indexOf(user), 1);
 
-      _this.online_indicator = "";
+      _this2.online_indicator = "";
     });
+    Echo["private"]('log-activity').listen('LoginandOutEvent', function (e) {
+      console.log(e);
+    });
+    this.allUsers();
   }
 });
 
@@ -2756,7 +2793,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   title: "Aerolink | Messenger | " + window.location.href.split("/").pop(),
   props: {
@@ -2796,7 +2832,8 @@ __webpack_require__.r(__webpack_exports__);
 
           _this.messages.push({
             body: message,
-            user: "You"
+            user: "You",
+            created_at: response.data.message_sent
           });
         });
       };
@@ -2817,19 +2854,14 @@ __webpack_require__.r(__webpack_exports__);
       var created_at = [];
       axios.get("/api/user_id/" + username).then(function (response) {
         _this2.user_id = response.data.id;
-        _this2.active_user = response.data.username;
+        _this2.active_user = response.data.fullname;
         axios.get("/api/messages/" + _this2.user_id).then(function (response) {
           for (var p = 0; p < response.data.length; p++) {
             var user_n = "";
 
             if (response.data[p].sent_to != _this2.$store.getters.getUser.id) {
               user_n = "You";
-            } //  var date = new Date(response.data[p].created_at);
-            // var timeofdate = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-            // var fulldate = date.toDateString() + " " + timeofdate;
-
-
-            console.log(response);
+            }
 
             _this2.messages.push({
               body: response.data[p].message,
@@ -2897,7 +2929,8 @@ __webpack_require__.r(__webpack_exports__);
       if (e.messages.sent_to === _this3.$store.getters.getUser.id) {
         _this3.messages.push({
           body: e.messages.message,
-          user: ""
+          user: "",
+          created_at: e.messages.message_sent
         }); //automatic scroll to down when someone sent you a message
 
 
@@ -31380,7 +31413,7 @@ var render = function() {
                                 _c("v-list-item-title", [
                                   _vm._v(
                                     "\n                            " +
-                                      _vm._s(user.username) +
+                                      _vm._s(user.fullname) +
                                       "\n                        "
                                   )
                                 ])
@@ -31399,7 +31432,52 @@ var render = function() {
                     "v-list-item",
                     { staticClass: "green darken-1 text-center" },
                     [_vm._v("Offline")]
-                  )
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.offline_users, function(off_user) {
+                    return _c(
+                      "v-list-item",
+                      { key: off_user.id },
+                      [
+                        _c(
+                          "v-list-item-icon",
+                          [
+                            _c(
+                              "v-icon",
+                              { attrs: { color: "blue-grey darken-1" } },
+                              [_vm._v("mdi-circle-medium")]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "white--text",
+                            attrs: { to: "/message/" + off_user.username }
+                          },
+                          [
+                            _c(
+                              "v-list-item-content",
+                              [
+                                _c("v-list-item-title", [
+                                  _vm._v(
+                                    "\n                            " +
+                                      _vm._s(off_user.fullname) +
+                                      "\n                        "
+                                  )
+                                ])
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  })
                 ],
                 2
               )
@@ -31627,24 +31705,24 @@ var render = function() {
                         [
                           _c("v-list-item-title", {
                             domProps: { textContent: _vm._s(message.body) }
-                          })
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "p",
+                            {
+                              class: {
+                                "date-message-out": message.user === "You",
+                                "date-message-in": message.user !== "You"
+                              }
+                            },
+                            [
+                              _c("span", [
+                                _vm._v(" " + _vm._s(message.created_at) + " ")
+                              ])
+                            ]
+                          )
                         ],
                         1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "p",
-                        {
-                          class: {
-                            "date-message-out": message.user === "You",
-                            "date-message-in": message.user !== "You"
-                          }
-                        },
-                        [
-                          _c("span", [
-                            _vm._v(" " + _vm._s(message.created_at) + " ")
-                          ])
-                        ]
                       )
                     ],
                     1

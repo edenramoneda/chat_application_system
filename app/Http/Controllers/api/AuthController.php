@@ -8,6 +8,7 @@ use Validator;
 use App\User;
 use DB;
 use Auth;
+use App\Events\LoginandOutEvent;
 class AuthController extends Controller
 {
     public function login(Request $request)
@@ -37,8 +38,12 @@ class AuthController extends Controller
 
         $token->save(); //eloquent
       //  $user = User::with('UserRoles')->where('id', Auth::user()->id)->first();
+        $user = User::where('id', Auth::user()->id)
+        ->update(['is_online' => 1]);
+
         return response(['error' => false, 'data' => Auth::user()->id, 'access_token' => $accessToken->accessToken]);
         //return $user->createToken('Auth Token')->accessToken;
+        event(new LoginandOutEvent($user));
     }
 
     public function UserData(Request $request){
@@ -46,5 +51,6 @@ class AuthController extends Controller
      //  return $request->user()->with('UserRoles')->where('id', Auth::user()->id)->first();
         return $request->user();
     }
+    
     
 }
