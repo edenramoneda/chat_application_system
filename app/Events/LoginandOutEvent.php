@@ -9,7 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-
+use App\User;
 class LoginandOutEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
@@ -19,9 +19,13 @@ class LoginandOutEvent
      *
      * @return void
      */
-    public function __construct()
+    public $user;
+    public function __construct(User $user)
     {
-        //
+        //  $user = User::where('id', $id)
+        //   ->update(['is_online' => $is_online]);
+
+        $this->user = $user;
     }
 
     /**
@@ -31,6 +35,6 @@ class LoginandOutEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new PrivateChannel('log-activity');
     }
 }

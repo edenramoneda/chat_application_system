@@ -49,20 +49,38 @@
                 <v-list-item
                     v-for="user in users"
                     :key="user.id"
-                    :href="user.link"
-                    link
                     >
+                    
                     <v-list-item-icon>
                         <v-icon color="green">mdi-circle-medium</v-icon>
                     </v-list-item-icon>
 
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            {{ user.username }}
-                        </v-list-item-title>
-                    </v-list-item-content>
+                    <router-link :to="`/message/${user.username}`" class="white--text">
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                {{ user.fullname }}
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </router-link>
                 </v-list-item>
                 <v-list-item class="green darken-1 text-center">Offline</v-list-item>
+                    <v-list-item
+                    v-for="off_user in offline_users"
+                    :key="off_user.id"
+                    >
+                    
+                    <v-list-item-icon>
+                        <v-icon color="blue-grey darken-1">mdi-circle-medium</v-icon>
+                    </v-list-item-icon>
+
+                    <router-link :to="`/message/${off_user.username}`" class="white--text">
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                {{ off_user.fullname }}
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </router-link>
+                </v-list-item>
             </v-list>
         </v-navigation-drawer>
 
@@ -72,7 +90,7 @@
         temporary
         ></v-navigation-drawer>  
         <v-main>
-            <router-view :online_indicator="online_indicator"></router-view>
+            <router-view :online_indicator="online_indicator"  :key="$route.fullPath"></router-view>
         </v-main>
      </v-app>
 </template>
@@ -99,6 +117,7 @@ export default {
     mini: true,
     typing: false,
     online_indicator: "",
+    offline_users: []
     }),
 
     computed: {
@@ -109,19 +128,35 @@ export default {
 
     methods: {
         logout() {
-            this.$store.commit("setUser", {});
+            this.$store.commit("setser", {});
             localStorage.removeItem('token_');
-            Echo.leaveChannel('users', (e) => {
-                console.log("logout")
-            });
             this.$router.go({ path: '/' }); 
+            // axios.post("api/logout").then(response => {
+            //     console.log(response);
+            // }).catch(err => {
+            //     console.log(err);
+            // });
+            
+        },
+
+        allUsers(){
+            axios.get("/api/all-users").then(response => {
+                response.data.forEach(u => {
+                    this.offline_users.push({
+                        fullname: u.fullname, username: u.username
+                    });
+                });
+               // console.log(response);
+            }).catch(errors => {
+               // console.log(errors);
+            });
         }
     },
     created() {
         Echo.join('users').here((users) => {
             users.forEach(u => {
                 this.users.push({
-                    username: u.username, link: '/message/' + u.username
+                    fullname: u.fullname, username: u.username, link: '/message/' + u.username
                 })
             });
             this.online_indicator = "green"
@@ -134,6 +169,14 @@ export default {
             this.users.splice(this.users.indexOf(user),1)
             this.online_indicator = ""
         })
+
+        Echo.private('log-activity')
+        .listen('LoginandOutEvent', (e) => {
+            console.log(e);
+        });
+
+        this.allUsers();
+        
     },
 }
 </script>

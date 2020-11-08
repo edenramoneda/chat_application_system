@@ -24,5 +24,20 @@ class UsersTableSeeder extends Seeder
             'user_img' => 'user.png',
             'password' => Hash::make('12345678'),
         ]);
+
+        
+        DB::table('users')->insert([
+            'username' => 'john_doe',
+            'email' => 'john.doe@gmail.com',
+            'user_img' => 'user.png',
+            'password' => Hash::make('12345678'),
+        ]);
+        
+        DB::table('users')->insert([
+            'username' => 'billy_joe',
+            'email' => 'billy_joe@gmail.com',
+            'user_img' => 'user.png',
+            'password' => Hash::make('12345678'),
+        ]);
     }
 }

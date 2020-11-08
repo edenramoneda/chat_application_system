@@ -30,3 +30,7 @@ Broadcast::channel('chat-{id}', function ($user) {
 Broadcast::channel('chat-sent-to-{id}', function ($user) {
     return Auth::check();
 });
+
+Broadcast::channel('log-activity', function ($user) {
+    return Auth::check();
+});

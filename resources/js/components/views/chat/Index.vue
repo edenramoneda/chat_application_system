@@ -16,7 +16,6 @@
               :key="message.key"
               class="mt-5"
             >
-
               <v-list-item-content
                 :class="{ 'green accent-4 message-out': message.user === 'You', 'teal darken-2 message-in': message.user !== 'You' }"
                 class="message white--text pa-sm-2" 
@@ -25,10 +24,10 @@
                   v-text="message.body"
                 > 
                 </v-list-item-title>
-              </v-list-item-content>
-              <p :class="{ 'date-message-out': message.user === 'You', 'date-message-in': message.user !== 'You' }">
+                <p :class="{ 'date-message-out': message.user === 'You', 'date-message-in': message.user !== 'You' }">
                   <span> {{ message.created_at }} </span>
-              </p>
+                </p>
+              </v-list-item-content>
             </v-list-item> 
           </div>
           
@@ -139,7 +138,8 @@ export default {
 
           this.messages.push({
             body: message,
-            user: "You"
+            user: "You",
+            created_at: response.data.message_sent
           });
 
         });
@@ -158,7 +158,7 @@ export default {
       let created_at = [];
       axios.get("/api/user_id/" + username).then(response => {
         this.user_id = response.data.id;
-        this.active_user = response.data.username;
+        this.active_user = response.data.fullname;
 
         axios
           .get("/api/messages/" + this.user_id)
@@ -168,15 +168,11 @@ export default {
               if (response.data[p].sent_to != this.$store.getters.getUser.id) {
                 user_n = "You";
               }
-
-            //  var date = new Date(response.data[p].created_at);
-
-              // var timeofdate = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-              // var fulldate = date.toDateString() + " " + timeofdate;
+              
               this.messages.push({
                 body: response.data[p].message,
                 user: user_n,
-                created_at: response.data[p].created_at
+                created_at: response.data[p].message_sent
               });
 
               //sort message by created_at
@@ -191,9 +187,7 @@ export default {
           .catch(function(error) {
             console.log(error);
           });
-      });
-
-                       
+      });       
     },
     isTyping() {
       
@@ -220,7 +214,6 @@ export default {
     this.initialize();
   },
   mounted() {
-
     Echo.private(`chat-${this.$store.getters.getUser.username}`)
     .listenForWhisper("typing", e => {
       let getIndex = arr => {
@@ -245,7 +238,8 @@ export default {
       if(e.messages.sent_to === this.$store.getters.getUser.id) {
         this.messages.push({
           body: e.messages.message,
-          user: ""
+          user: "",
+          created_at: e.messages.message_sent
         });
         //automatic scroll to down when someone sent you a message
         document.getElementById('messages').scrollTop  = document.getElementById('messages').scrollHeight + 100;

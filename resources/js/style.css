@@ -30,7 +30,7 @@ html { overflow-y: hidden }
 }
 .date-message-out{
   position: absolute;
-  font-size: 14px;
+  font-size: 11px;
   right: 1rem;
   top: -1rem;
   color: #4d4d4d;
@@ -38,7 +38,7 @@ html { overflow-y: hidden }
 }
 .date-message-in{
   position: absolute;
-  font-size: 14px;
+  font-size: 11px;
   left: 1rem;
   top: -1rem;
   color: #4d4d4d;

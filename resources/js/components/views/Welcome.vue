@@ -9,3 +9,8 @@
         </v-container>
     </v-app>
 </template>
+<script>
+    export default {
+        title: 'Aerolink | Welcome Page'
+    }
+</script>

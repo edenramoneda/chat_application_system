@@ -20,12 +20,15 @@ Route::post('/reset-password', 'api\ForgotPasswordController@resetPassword');
 Route::prefix('/user')->group(function(){
     Route::post('/login', 'api\AuthController@login');
     Route::middleware('auth:api')->get('/user', 'api\AuthController@UserData');
+
 });
 
 Route::group(['middleware' => 'auth:api'], function () { //prevents "redirected too many times"
     Route::post('/send/{user_id}', 'MessagesController@store');
     Route::get('/messages/{user_id}', 'MessagesController@index');
     Route::get('/user_id/{username}', 'MessagesController@getUserId');
+    Route::post('/logout', 'MessagesController@logout');
+    Route::get('/all-users', 'MessagesController@getAllUsers');
 });
 
 
