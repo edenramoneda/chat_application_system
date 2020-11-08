@@ -110,3 +110,9 @@ html { overflow-y: hidden }
     cursor: pointer;
   }
   
+  @media only screen and (max-width: 1019px) {
+    #input_zone {
+      left:0;
+    }
+  }
+  
