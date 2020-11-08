@@ -173,10 +173,11 @@ export default {
 
               // var timeofdate = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
               // var fulldate = date.toDateString() + " " + timeofdate;
+              console.log(response);
               this.messages.push({
                 body: response.data[p].message,
                 user: user_n,
-                created_at: response.data[p].created_at
+                created_at: response.data[p].message_sent
               });
 
               //sort message by created_at
@@ -220,7 +221,6 @@ export default {
     this.initialize();
   },
   mounted() {
-
     Echo.private(`chat-${this.$store.getters.getUser.username}`)
     .listenForWhisper("typing", e => {
       let getIndex = arr => {

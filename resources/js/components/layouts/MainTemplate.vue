@@ -49,18 +49,19 @@
                 <v-list-item
                     v-for="user in users"
                     :key="user.id"
-                    :href="user.link"
-                    link
                     >
+                    
                     <v-list-item-icon>
                         <v-icon color="green">mdi-circle-medium</v-icon>
                     </v-list-item-icon>
 
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            {{ user.username }}
-                        </v-list-item-title>
-                    </v-list-item-content>
+                    <router-link :to="`/message/${user.username}`" class="white--text">
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                {{ user.username }}
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </router-link>
                 </v-list-item>
                 <v-list-item class="green darken-1 text-center">Offline</v-list-item>
             </v-list>
@@ -72,7 +73,7 @@
         temporary
         ></v-navigation-drawer>  
         <v-main>
-            <router-view :online_indicator="online_indicator"></router-view>
+            <router-view :online_indicator="online_indicator"  :key="$route.fullPath"></router-view>
         </v-main>
      </v-app>
 </template>
