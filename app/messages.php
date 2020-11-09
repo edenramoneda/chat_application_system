@@ -21,6 +21,6 @@ class Messages extends Model
 
     public function getMessageSentAttribute(){
         $date = Carbon::parse($this->created_at);
-        return $date->isoFormat('LLLL');  
+        return $date->isoFormat('MMMM Do YYYY, h:mm:ss a');  
     }
 }

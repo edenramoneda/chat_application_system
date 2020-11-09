@@ -2608,11 +2608,12 @@ __webpack_require__.r(__webpack_exports__);
       localStorage.removeItem('token_');
       this.$router.go({
         path: '/'
-      }); // axios.post("api/logout").then(response => {
-      //     console.log(response);
-      // }).catch(err => {
-      //     console.log(err);
-      // });
+      });
+      axios.post("api/logout").then(function (response) {
+        console.log(response);
+      })["catch"](function (err) {
+        console.log(err);
+      });
     },
     allUsers: function allUsers() {
       var _this = this;
@@ -2631,6 +2632,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this2 = this;
 
+    this.allUsers();
     Echo.join('users').here(function (users) {
       users.forEach(function (u) {
         _this2.users.push({
@@ -2639,21 +2641,40 @@ __webpack_require__.r(__webpack_exports__);
           link: '/message/' + u.username
         });
       });
-      _this2.online_indicator = "green"; //   this.users = users
     }).joining(function (user) {
       _this2.users.push(user);
 
-      _this2.online_indicator = "green";
+      axios.put('/api/user/' + user.id + '/online');
     }).leaving(function (user) {
       _this2.users.splice(_this2.users.indexOf(user), 1);
 
-      _this2.online_indicator = "";
-    });
-    Echo["private"]('log-activity').listen('LoginandOutEvent', function (e) {
+      axios.put('/api/user/' + user.id + '/offline');
+
+      _this2.offline_users.push({
+        fullname: user.fullname,
+        username: user.username,
+        link: '/message/' + user.username
+      });
+    }).listen('LoginEvent', function (e) {
+      // this.online_indicator = "green"
+      while (_this2.offline_users.findIndex(function (l) {
+        return l.username === e.user.username;
+      }) >= 0) {
+        _this2.offline_users.splice(_this2.offline_users.findIndex(function (f) {
+          return f.username === e.user.username;
+        }), 1);
+      }
+    }).listen('LogoutEvent', function (e) {
+      //  this.online_indicator = "blue-grey darken-1"
       console.log(e);
     });
-    this.allUsers();
-  }
+  } // mounted() {
+  //     Echo.private('log-activity')
+  //     .listen('LoginandOutEvent', (e) => {
+  //        console.log("LoginandOutEvent" + e);
+  //     }) ;       
+  // }
+
 });
 
 /***/ }),
