@@ -101,8 +101,8 @@
 <script>
 export default {
   title: "Aerolink | Messenger | " + window.location.href.split("/").pop(),
-  props:{
-    online_indicator: String
+  props: {
+    online_indicator : String
   },
   data() {
     return {
@@ -117,7 +117,7 @@ export default {
     };
   },
   methods: {
-       insert(emoji) {
+    insert(emoji) {
       this.message += emoji
     },
     sendMessage() {

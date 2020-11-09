@@ -7,7 +7,7 @@ use App\User;
 use App\Events\ChatEvent;
 use Illuminate\Http\Request;
 use Auth;
-use App\Events\LoginandOutEvent;
+use App\Events\LogoutEvent;
 class MessagesController extends Controller
 {
 
@@ -116,10 +116,11 @@ class MessagesController extends Controller
 
     public function logout(){
 
-        $user = User::where('id', 1)
-        ->update(['is_online' => 0]);
-        
-        event(new LoginandOutEvent($user));
+        $user = User::find(Auth::user()->id);
+        $user->is_online = 0;
+        $user->save();
+
+        broadcast(new LogoutEvent($user));
     }
 
     public function getAllUsers(){

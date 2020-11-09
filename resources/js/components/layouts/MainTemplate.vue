@@ -90,7 +90,7 @@
         temporary
         ></v-navigation-drawer>  
         <v-main>
-            <router-view :online_indicator="online_indicator"  :key="$route.fullPath"></router-view>
+            <router-view  :key="$route.fullPath" :online_indicator="online_indicator"></router-view>
         </v-main>
      </v-app>
 </template>
@@ -107,7 +107,6 @@ export default {
     props: {
       source: String,
     },
-    
     data: () => ({
     drawer: null,
     drawerRight: null,
@@ -117,7 +116,7 @@ export default {
     mini: true,
     typing: false,
     online_indicator: "",
-    offline_users: []
+    offline_users: [], 
     }),
 
     computed: {
@@ -131,11 +130,11 @@ export default {
             this.$store.commit("setser", {});
             localStorage.removeItem('token_');
             this.$router.go({ path: '/' }); 
-            // axios.post("api/logout").then(response => {
-            //     console.log(response);
-            // }).catch(err => {
-            //     console.log(err);
-            // });
+            axios.post("api/logout").then(response => {
+                console.log(response);
+            }).catch(err => {
+                console.log(err);
+            });
             
         },
 
@@ -153,30 +152,34 @@ export default {
         }
     },
     created() {
+        this.allUsers();
+
         Echo.join('users').here((users) => {
             users.forEach(u => {
                 this.users.push({
                     fullname: u.fullname, username: u.username, link: '/message/' + u.username
-                })
+                })  
             });
-            this.online_indicator = "green"
-         //   this.users = users
         }).joining((user) => {
-             this.users.push(user)
-             this.online_indicator = "green"
+            this.users.push(user)
+            axios.put('/api/user/'+ user.id + '/online')
         }).
         leaving((user)=> {
             this.users.splice(this.users.indexOf(user),1)
-            this.online_indicator = ""
-        })
-
-        Echo.private('log-activity')
-        .listen('LoginandOutEvent', (e) => {
-            console.log(e);
-        });
-
-        this.allUsers();
-        
+            axios.put('/api/user/'+ user.id + '/offline')
+            
+        }).listen('LoginEvent', (e) => {
+           // this.online_indicator = "green"
+        }).listen('LogoutEvent', (e) => {
+          //  this.online_indicator = "blue-grey darken-1"
+        })  
     },
+    // mounted() {
+        
+    //     Echo.private('log-activity')
+    //     .listen('LoginandOutEvent', (e) => {
+    //        console.log("LoginandOutEvent" + e);
+    //     }) ;       
+    // }
 }
 </script>

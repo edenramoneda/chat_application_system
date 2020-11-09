@@ -38,12 +38,13 @@ class AuthController extends Controller
 
         $token->save(); //eloquent
       //  $user = User::with('UserRoles')->where('id', Auth::user()->id)->first();
-        $user = User::where('id', Auth::user()->id)
-        ->update(['is_online' => 1]);
+        $user = User::find(Auth::user()->id);
+        $user->is_online = 1;
+        $user->save();
 
         return response(['error' => false, 'data' => Auth::user()->id, 'access_token' => $accessToken->accessToken]);
         //return $user->createToken('Auth Token')->accessToken;
-        event(new LoginandOutEvent($user));
+         broadcast(new LoginEvent($user));
     }
 
     public function UserData(Request $request){

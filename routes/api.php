@@ -23,12 +23,15 @@ Route::prefix('/user')->group(function(){
 
 });
 
+Route::post('/online-users/{user_id}/{is_online}', 'MessagesController@watchOnlineUser');
 Route::group(['middleware' => 'auth:api'], function () { //prevents "redirected too many times"
     Route::post('/send/{user_id}', 'MessagesController@store');
     Route::get('/messages/{user_id}', 'MessagesController@index');
     Route::get('/user_id/{username}', 'MessagesController@getUserId');
     Route::post('/logout', 'MessagesController@logout');
     Route::get('/all-users', 'MessagesController@getAllUsers');
+    Route::put('/user/{user}/online', 'UserOnlineController');
+    Route::put('/user/{user}/offline', 'UserOfflineController');
 });
 
 
