@@ -167,10 +167,12 @@ export default {
         leaving((user)=> {
             this.users.splice(this.users.indexOf(user),1)
             axios.put('/api/user/'+ user.id + '/offline')
+            this.offline_users.push({
+                fullname: user.fullname, username: user.username, link: '/message/' + user.username
+            })  
             
         }).listen('LoginEvent', (e) => {
            // this.online_indicator = "green"
-            console.log(e.user.username);
 
             while ( this.offline_users.findIndex(l => l.username === e.user.username ) >= 0 )
             
@@ -179,9 +181,8 @@ export default {
 
         }).listen('LogoutEvent', (e) => {
           //  this.online_indicator = "blue-grey darken-1"
-            this.offline_users.push({
-                fullname: e.fullname, username: e.username, link: '/message/' + e.username
-            })  
+            
+            console.log(e);
         })
     },
     // mounted() {

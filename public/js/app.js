@@ -2649,10 +2649,14 @@ __webpack_require__.r(__webpack_exports__);
       _this2.users.splice(_this2.users.indexOf(user), 1);
 
       axios.put('/api/user/' + user.id + '/offline');
+
+      _this2.offline_users.push({
+        fullname: user.fullname,
+        username: user.username,
+        link: '/message/' + user.username
+      });
     }).listen('LoginEvent', function (e) {
       // this.online_indicator = "green"
-      console.log(e.user.username);
-
       while (_this2.offline_users.findIndex(function (l) {
         return l.username === e.user.username;
       }) >= 0) {
@@ -2662,11 +2666,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     }).listen('LogoutEvent', function (e) {
       //  this.online_indicator = "blue-grey darken-1"
-      _this2.offline_users.push({
-        fullname: e.fullname,
-        username: e.username,
-        link: '/message/' + e.username
-      });
+      console.log(e);
     });
   } // mounted() {
   //     Echo.private('log-activity')
