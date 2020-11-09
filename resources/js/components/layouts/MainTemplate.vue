@@ -170,9 +170,19 @@ export default {
             
         }).listen('LoginEvent', (e) => {
            // this.online_indicator = "green"
+            console.log(e.user.username);
+
+            while ( this.offline_users.findIndex(l => l.username === e.user.username ) >= 0 )
+            
+            this.offline_users.splice( this.offline_users.findIndex(f => f.username ===  e.user. username),1);
+
+
         }).listen('LogoutEvent', (e) => {
           //  this.online_indicator = "blue-grey darken-1"
-        })  
+            this.offline_users.push({
+                fullname: e.fullname, username: e.username, link: '/message/' + e.username
+            })  
+        })
     },
     // mounted() {
         
