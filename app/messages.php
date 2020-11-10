@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Messages;
 use Carbon\Carbon;
+
 class Messages extends Model
 {
     
@@ -21,6 +22,8 @@ class Messages extends Model
 
     public function getMessageSentAttribute(){
         $date = Carbon::parse($this->created_at);
-        return $date->isoFormat('MMMM Do YYYY, h:mm:ss a');  
+        return $date->isoFormat('MMM D, YYYY h:mm:ss a'); 
+        // $date = Carbon::parse($this->created_at);
+        // return $date->isoFormat('x'); 
     }
 }
