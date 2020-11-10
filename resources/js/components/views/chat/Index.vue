@@ -169,6 +169,8 @@ export default {
                 user_n = "You";
               }
               
+              var d = new Date(response.data[p].message_sent);
+              var dispDate = d.getMonth() + " " + d.getDate() + " " + d.getFullYear() + " " + d.getHours() + " " + d.getMinutes() + " " + d.getSeconds();
               this.messages.push({
                 body: response.data[p].message,
                 user: user_n,
@@ -177,8 +179,9 @@ export default {
 
               //sort message by created_at
               this.messages.sort(
-                (a, b) => (a.created_at > b.created_at ? 1 : -1)
+                (a, b) => (a.message_sent > b.message_sent ? 1 : -1)
               );
+              
 
             }
 
@@ -210,6 +213,7 @@ export default {
 
     }
   },
+
   created() {
     this.initialize();
   },

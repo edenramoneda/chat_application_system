@@ -8,6 +8,10 @@
                 outlined
             >
                 <v-container>
+                    <center>
+                      <img src="/images/aerolink.png">
+                      <h3>Aerolink Messenger</h3>
+                    </center>
                     <v-row>
                         <v-col sm="12" md="12" lg="12">
                         <form>
@@ -30,15 +34,7 @@
                                 required
                             ></v-text-field><br>
                             
-                            <v-btn @click="submit" color="primary" block>Login</v-btn>
-                               <v-btn
-                                color="blue-grey"
-                                class="mt-3 white--text"
-                                block
-                                to="/forgot-password"
-                                >
-                                Forgot Password
-                                </v-btn>
+                            <v-btn @click="submit" color="success" block depressed>Login</v-btn>
                         </form>
                         </v-col>
                     </v-row>
@@ -48,36 +44,6 @@
     </div>
   </v-app>
 </template>
-
-<style scoped>
-.login-page {
-  height: 100vh;
-  overflow: hidden !important;
-}
-.overlay {
-  width: 100%;
-  height: 100vh;
-  background: #0F2027;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  position: absolute;
-  opacity: 0.8;
-}
-.flex-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.login-box {
-  width: 50%;
-}
-.illus {
-  height: 345px;
-}
-.bcp-logo {
-  height: 80px;
-}
-</style>
 
 <script>
 import { required, minLength } from "vuelidate/lib/validators";

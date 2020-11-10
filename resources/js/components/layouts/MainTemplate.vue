@@ -115,7 +115,7 @@ export default {
     users: [],
     mini: true,
     typing: false,
-    online_indicator: "",
+    online_indicator: "blue-grey darken-1",
     offline_users: [], 
     }),
 
@@ -149,7 +149,7 @@ export default {
             }).catch(errors => {
                // console.log(errors);
             });
-        }
+        },
     },
     created() {
         this.allUsers();
@@ -163,26 +163,29 @@ export default {
         }).joining((user) => {
             this.users.push(user)
             axios.put('/api/user/'+ user.id + '/online')
+            Vue.swal({
+                position: 'top-end',
+                icon: 'success',
+                title: user.fullname + " is Online",
+                showConfirmButton: false,
+                timer: 4000,
+                toast: true,
+            })
         }).
         leaving((user)=> {
             this.users.splice(this.users.indexOf(user),1)
             axios.put('/api/user/'+ user.id + '/offline')
             this.offline_users.push({
-                fullname: user.fullname, username: user.username, link: '/message/' + user.username
+                fullname: user.fullname, username: user.username, link: '/message/' + user.username, updated_at: this.updated_on
             })  
             
         }).listen('LoginEvent', (e) => {
-           // this.online_indicator = "green"
-
-            while ( this.offline_users.findIndex(l => l.username === e.user.username ) >= 0 )
-            
-            this.offline_users.splice( this.offline_users.findIndex(f => f.username ===  e.user. username),1);
-
+            this.online_indicator = "green"
+            while ( this.offline_users.findIndex(l => l.username === e.user.username ) >= 0 ) 
+            this.offline_users.splice( this.offline_users.findIndex(f => f.username ===  e.user.username),1);
 
         }).listen('LogoutEvent', (e) => {
-          //  this.online_indicator = "blue-grey darken-1"
-            
-            console.log(e);
+            this.online_indicator = "blue-grey darken-1" 
         })
     },
     // mounted() {
