@@ -54,6 +54,7 @@ html { overflow-y: hidden }
 }
 .v-list-item__title{
   white-space: normal;
+  padding-left: 4px;
 }
 #input_zone{
   position: fixed;

@@ -139,16 +139,15 @@ export default {
         },
 
         allUsers(){
-            axios.get("/api/all-users").then(response => {
+                 axios.get("/api/all-users").then(response => {
                 response.data.forEach(u => {
                     this.offline_users.push({
                         fullname: u.fullname, username: u.username
                     });
                 });
                // console.log(response);
-            }).catch(errors => {
-               // console.log(errors);
-            });
+            }).catch(errors => {});
+           
         },
     },
     created() {
