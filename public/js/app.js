@@ -2857,20 +2857,14 @@ __webpack_require__.r(__webpack_exports__);
 
             if (response.data[p].sent_to != _this2.$store.getters.getUser.id) {
               user_n = "You";
-            }
+            } // var d = new Date(response.data[p].message_sent);
+            // var dispDate = d.getMonth() + " " + d.getDate() + " " + d.getFullYear() + " " + d.getHours() + " " + d.getMinutes() + " " + d.getSeconds();
 
-            var d = new Date(response.data[p].message_sent);
-            var dispDate = d.getMonth() + " " + d.getDate() + " " + d.getFullYear() + " " + d.getHours() + " " + d.getMinutes() + " " + d.getSeconds();
 
             _this2.messages.push({
               body: response.data[p].message,
               user: user_n,
               created_at: response.data[p].message_sent
-            }); //sort message by created_at
-
-
-            _this2.messages.sort(function (a, b) {
-              return a.message_sent > b.message_sent ? 1 : -1;
             });
           }
 

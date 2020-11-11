@@ -169,18 +169,13 @@ export default {
                 user_n = "You";
               }
               
-              var d = new Date(response.data[p].message_sent);
-              var dispDate = d.getMonth() + " " + d.getDate() + " " + d.getFullYear() + " " + d.getHours() + " " + d.getMinutes() + " " + d.getSeconds();
+              // var d = new Date(response.data[p].message_sent);
+              // var dispDate = d.getMonth() + " " + d.getDate() + " " + d.getFullYear() + " " + d.getHours() + " " + d.getMinutes() + " " + d.getSeconds();
               this.messages.push({
                 body: response.data[p].message,
                 user: user_n,
                 created_at: response.data[p].message_sent
               });
-
-              //sort message by created_at
-              this.messages.sort(
-                (a, b) => (a.message_sent > b.message_sent ? 1 : -1)
-              );
               
 
             }

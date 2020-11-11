@@ -29,7 +29,8 @@ class MessagesController extends Controller
             'user_id' => $user_id
         ])->get()->toArray();
 
-        return array_merge($sent_messages, $receive_messages);
+        $sorted_ = collect(array_merge($sent_messages, $receive_messages))->sortBy('created_at')->values()->all();
+        return $sorted_;
     }
 
     /**
