@@ -35,7 +35,7 @@
                 <v-list-item-avatar>
                     <v-img src="/uploads/user.png"></v-img>
                     </v-list-item-avatar>
-                <v-list-item-title>{{ this.$store.getters.getUser.username }}</v-list-item-title>
+                <v-list-item-title>{{ this.$store.getters.getUser.fullname }}</v-list-item-title>
                 <v-btn
                 icon
                 @click.stop="mini = !mini"
