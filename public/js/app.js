@@ -31294,7 +31294,7 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c("v-list-item-title", [
-                    _vm._v(_vm._s(this.$store.getters.getUser.username))
+                    _vm._v(_vm._s(this.$store.getters.getUser.fullname))
                   ]),
                   _vm._v(" "),
                   _c("v-btn", {
