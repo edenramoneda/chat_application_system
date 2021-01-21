@@ -5,4 +5,4 @@ Unfotunately, I can't afford to buy hosting that supports Laravel Websockets, so
 [![HERE](https://j.gifs.com/xnpK4q.gif)](https://youtu.be/jphtUEvEq8k)
 
 Demo can also Here: 
-[](https://youtu.be/jphtUEvEq8k)
+[https://youtu.be/jphtUEvEq8k](https://youtu.be/jphtUEvEq8k)
