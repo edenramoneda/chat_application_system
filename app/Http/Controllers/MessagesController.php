@@ -19,12 +19,12 @@ class MessagesController extends Controller
      */
     public function index($user_id)
     {
-        $sent_messages = messages::where([
+        $sent_messages = Messages::where([
             'user_id' => Auth::user()->id,
             'sent_to' => $user_id
         ])->get()->toArray();
 
-        $receive_messages = messages::where([
+        $receive_messages = Messages::where([
             'sent_to' => Auth::user()->id,
             'user_id' => $user_id
         ])->get()->toArray();
@@ -72,7 +72,7 @@ class MessagesController extends Controller
      * @param  \App\messages  $messages
      * @return \Illuminate\Http\Response
      */
-    public function show(messages $messages)
+    public function show(Messages $messages)
     {
         //
     }
@@ -83,7 +83,7 @@ class MessagesController extends Controller
      * @param  \App\messages  $messages
      * @return \Illuminate\Http\Response
      */
-    public function edit(messages $messages)
+    public function edit(Messages $messages)
     {
         //
     }
@@ -95,7 +95,7 @@ class MessagesController extends Controller
      * @param  \App\messages  $messages
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, messages $messages)
+    public function update(Request $request, Messages $messages)
     {
         //
     }
@@ -106,7 +106,7 @@ class MessagesController extends Controller
      * @param  \App\messages  $messages
      * @return \Illuminate\Http\Response
      */
-    public function destroy(messages $messages)
+    public function destroy(Messages $messages)
     {
         //
     }
