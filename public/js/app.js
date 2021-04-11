@@ -94188,11 +94188,13 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
   key: 'local',
   cluster: "mt1",
-  forceTLS: false,
-  wsHost: 'aerolink-messenger.xyz',
-  wsPort: 6001,
+  forceTLS: true,
+  wsHost: 'websocket.aerolink-messenger.xyz',
+  wssPort: 6001,
   disableStats: true,
   encrypted: true,
+  enabledTransports: ['ws', 'wss'],
+  disabledTransports: ['sockjs', 'xhr_polling', 'xhr_streaming'],
   auth: {
     headers: {
       Authorization: localStorage.getItem("token_")

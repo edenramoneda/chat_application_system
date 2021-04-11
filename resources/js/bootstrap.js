@@ -34,11 +34,13 @@ window.Echo = new Echo({
     broadcaster: 'pusher',
     key: 'local',
     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-    forceTLS: false,
-    wsHost: 'aerolink-messenger.xyz',
-    wsPort: 6001,
+    forceTLS: true,
+    wsHost: 'websocket.aerolink-messenger.xyz',
+    wssPort: 6001,
     disableStats: true,
     encrypted: true,
+    enabledTransports: ['ws', 'wss'],
+    disabledTransports: ['sockjs', 'xhr_polling', 'xhr_streaming'],
     auth: {
         headers: {
             Authorization: localStorage.getItem("token_")
