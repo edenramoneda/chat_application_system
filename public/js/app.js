@@ -2570,15 +2570,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     logout: function logout() {
+      axios.put("api/logout").then(function (response) {//   console.log(response);
+      })["catch"](function (err) {
+        console.log(err);
+      });
       this.$store.commit("setser", {});
       localStorage.removeItem('token_');
       this.$router.go({
         path: '/'
-      });
-      axios.post("api/logout").then(function (response) {
-        console.log(response);
-      })["catch"](function (err) {
-        console.log(err);
       });
     },
     allUsers: function allUsers() {

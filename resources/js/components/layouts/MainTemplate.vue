@@ -127,15 +127,16 @@ export default {
 
     methods: {
         logout() {
-            this.$store.commit("setser", {});
-            localStorage.removeItem('token_');
-            this.$router.go({ path: '/' }); 
-            axios.post("api/logout").then(response => {
-                console.log(response);
+            axios.put("api/logout").then(response => {
+             //   console.log(response);
             }).catch(err => {
                 console.log(err);
             });
             
+            this.$store.commit("setser", {});
+            localStorage.removeItem('token_');
+            this.$router.go({ path: '/' }); 
+
         },
 
         allUsers(){
