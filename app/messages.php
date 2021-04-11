@@ -3,12 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Messages;
 use Carbon\Carbon;
-
+use App\User;
 class Messages extends Model
 {
-    
     protected $fillable = [
         'user_id','message','sent_to'
     ];
