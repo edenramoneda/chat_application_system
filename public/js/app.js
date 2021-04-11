@@ -94189,7 +94189,7 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   key: 'local',
   cluster: "mt1",
   forceTLS: false,
-  wsHost: '127.0.0.1',
+  wsHost: 'aerolink-messenger.xyz',
   wsPort: 6001,
   disableStats: true,
   encrypted: true,

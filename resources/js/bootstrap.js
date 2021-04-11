@@ -35,7 +35,7 @@ window.Echo = new Echo({
     key: 'local',
     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
     forceTLS: false,
-    wsHost: '127.0.0.1',
+    wsHost: 'aerolink-messenger.xyz',
     wsPort: 6001,
     disableStats: true,
     encrypted: true,
